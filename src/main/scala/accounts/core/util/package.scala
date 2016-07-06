@@ -2,14 +2,6 @@ package accounts.core
 
 package object util {
 
-  def os: Option[OS] = {
-    val osName = sys.props("os.name")
-    if (osName.toLowerCase.startsWith("windows")) Some(OS.Windows)
-    else if (osName.toLowerCase.startsWith("mac")) Some(OS.MacOS)
-    else if (osName.toLowerCase.startsWith("linux")) Some(OS.Linux)
-    else None
-  }
-
   implicit class TraversableOps[A](s: Seq[A]) {
     def singleOption: Option[A] = s match {
       case Seq() => None
