@@ -1,7 +1,7 @@
 package accounts.view
 
-import accounts.core.view.ViewTest
 import accounts.model.FiltersModel
+import accounts.test.view.ViewTest
 import accounts.viewmodel.FiltersViewModel
 import org.testfx.api.FxAssert.verifyThat
 import org.mockito.Mockito._

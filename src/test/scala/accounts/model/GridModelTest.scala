@@ -6,7 +6,7 @@ import accounts.record.IncomeType.Card
 import accounts.record.{Record, Transaction}
 import accounts.record.TransactionType._
 import accounts.record.repository.RecordRepositoryStub
-import accounts.core.util.TestUtils._
+import accounts.test.util.TestUtils._
 import org.scalactic.TypeCheckedTripleEquals
 import org.scalatest.{Matchers, WordSpec}
 

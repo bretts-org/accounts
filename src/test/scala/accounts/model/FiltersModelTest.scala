@@ -3,7 +3,7 @@ package accounts.model
 import accounts.record.TransactionCategory._
 import accounts.record.TransactionType._
 import accounts.record.repository.RecordRepositoryStub
-import accounts.core.util.TestUtils._
+import accounts.test.util.TestUtils._
 import org.scalactic.TypeCheckedTripleEquals
 import org.scalatest.{Matchers, WordSpec}
 

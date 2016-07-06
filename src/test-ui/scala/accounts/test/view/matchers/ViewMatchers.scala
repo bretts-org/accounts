@@ -1,4 +1,4 @@
-package accounts.core.view.matchers
+package accounts.test.view.matchers
 
 import javafx.scene.control._
 import javafx.scene.Node

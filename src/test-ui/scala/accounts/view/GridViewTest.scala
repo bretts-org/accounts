@@ -1,8 +1,8 @@
 package accounts.view
 
-import accounts.core.view.ViewTest
 import accounts.model.GridModel
 import accounts.record.repository.RecordRepositoryStub
+import accounts.test.view.ViewTest
 import accounts.viewmodel.GridViewModel
 import org.scalatest.mockito.MockitoSugar
 import org.testfx.api.FxAssert.verifyThat

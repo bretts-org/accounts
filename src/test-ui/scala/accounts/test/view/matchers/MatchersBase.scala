@@ -1,4 +1,4 @@
-package accounts.core.view.matchers
+package accounts.test.view.matchers
 
 import org.hamcrest.{BaseMatcher, Description}
 import org.scalactic.TypeCheckedTripleEquals

@@ -7,7 +7,7 @@ import accounts.record.IncomeType._
 import accounts.record.{OpeningBalance, Transaction}
 import accounts.record.TransactionCategory.Food
 import accounts.record.TransactionType.{Generic, IceCream, Phone, Unknown}
-import accounts.core.util.TestUtils._
+import accounts.test.util.TestUtils._
 import org.scalactic.TypeCheckedTripleEquals
 import org.scalatest.WordSpec
 

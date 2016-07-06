@@ -1,4 +1,4 @@
-package accounts.core.view.matchers
+package accounts.test.view.matchers
 
 import javafx.scene.Parent
 import javafx.scene.control.{TableCell, TableRow, TableView}
