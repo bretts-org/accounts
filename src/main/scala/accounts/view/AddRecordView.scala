@@ -21,6 +21,7 @@ object AddRecordView {
 class AddRecordView(vm: AddRecordViewModel) extends View {
 
   val button = new Button {
+    id = "addTransactionButton"
     text = "Add Transaction"
     onAction = handle {
       vm.reset()
@@ -30,12 +31,14 @@ class AddRecordView(vm: AddRecordViewModel) extends View {
   }
 
   private val datePicker = new DatePicker {
+    id = "addRecordDatePicker"
     converter = View.dateConverter
     focused.onChange(View.selectOnFocus(editor()) _)
     value <==> vm.date
   }
 
   val window: Stage = new Stage {
+    title = "Add Record"
     scene = new Scene {
       root = new GridPane {
         padding = Insets(top = 5, bottom = 15, left = 15, right = 15)
