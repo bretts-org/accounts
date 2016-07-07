@@ -3,16 +3,10 @@ language: java
 os: osx
 osx_image: xcode8
 
-env:
-  global:
-    - SCALA_VERSION=2.11.8
-    # Codacy project token
-    - secure: smnTaYYUBEU1nGqKOVnnAzyRQp8VQR/V5ZQfW5x1Vh2ZhabZOhBZBaEZI9vDOjBDEcjpvbPkHxTNoZQ+DvIpVokn/ClULMKo1pzAc+71RluAGw156s4VbGKTlgn4wpgzIja0fw1m+Zwf854lhpia7/T/QwGjWTkaI+EWfcBBVenEOu+pk2MIjP9hARqhOeqNq5N/AgPLxnpk5jkyrjqASzEzN+m71U93NFuWa3h5LJcdLuT406M3XG5D77Mjl6lXuORvj7IgzKXgKBQveVERlYf5MmZSRrtl98SeLmm413zJNlm/LEkWyq28j6s5nwSEypiDee/gugJ4Olm1eD61GCr0am+wNscl4o0SDPCZH8AeaxdI2yW96xFh91rQw9qfCx+tPCKE8QXZu8kJtrQ39qHhhEnqdZGGZIwdM+KrbrNIGcJ8NFjvO1lNsseVV8pJgAJ3N55UGPOFZ19qAbIz08QbELJQbJVcGWcnifHDbi1AK41K70kHGBBPzxWMqn/4GaVZP3hr2a7pKkyj7Y1gCXSRggP22CVcUnQ8DqmdBBENM27Bb+61WfUYjCwxrb7ui+j7dyaPYYxWkq2jf9Lcz9OnQ0147GMUuW/lEeYtE5Z2wtrNZQgvBACNb4qEDSvqThqQ0yJ/suUhbOfWxIpFZx7yWiDDiR7E8FyP4eLiWpM=
-
 install:
-  - mkdir ~/bin
-  - curl -s https://raw.githubusercontent.com/paulp/sbt-extras/e428bbdb514e1ffe245010b3c4f69e9dfa4bbdb3/sbt > ~/bin/sbt
-  - chmod 0755 ~/bin/sbt
+  - curl -s https://raw.githubusercontent.com/paulp/sbt-extras/e428bbdb514e1ffe245010b3c4f69e9dfa4bbdb3/sbt > ~/sbt
+  - chmod 0755 ~/sbt
+  - java -version
 
 cache:
   directories:
@@ -20,7 +14,7 @@ cache:
     - $HOME/.sbt
 
 script:
-  - ~/bin/sbt ++$SCALA_VERSION test test-ui:test
+  - ~/sbt test test-ui:test
 
 # Disable notifications (rely on Appveyor for build emails)
 notifications:

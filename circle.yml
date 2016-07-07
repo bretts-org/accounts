@@ -2,6 +2,7 @@ dependencies:
   pre:
     - wget -q https://dl.bintray.com/sbt/debian/sbt-0.13.11.deb
     - sudo dpkg -i sbt-0.13.11.deb
+    - java -version
 
   cache_directories:
     - "~/.ivy2"
@@ -9,5 +10,7 @@ dependencies:
 
 test:
    override:
-     - java -version
      - cat /dev/null | sbt coverage test test-ui:test coverageReport codacyCoverage
+
+# CODACY_PROJECT_TOKEN specified in web settings
+# Email notifications disabled in web settings (rely on Appveyor for build emails)

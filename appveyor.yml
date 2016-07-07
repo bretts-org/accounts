@@ -2,33 +2,28 @@ version: '{build}'
 
 os: Windows Server 2012
 
-environment:
-  CODACY_PROJECT_TOKEN:
-    secure: h3lgKq47Oah4uAdyxMy1ywTsZjv4JgEyT08PxYuzwnGaDVGsFUWzFxB+RfFNY4Uc
-
 install:
   - ps: |
       Add-Type -AssemblyName System.IO.Compression.FileSystem
       if (!(Test-Path -Path "C:\sbt" )) {
         (new-object System.Net.WebClient).DownloadFile(
-          'https://dl.bintray.com/sbt/native-packages/sbt/0.13.9/sbt-0.13.9.zip',
+          'https://dl.bintray.com/sbt/native-packages/sbt/0.13.11/sbt-0.13.11.zip',
           'C:\sbt-bin.zip'
         )
         [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\sbt-bin.zip", "C:\sbt")
       }
   - cmd: Set PYTHON=C:\Python35
   - cmd: SET PATH=C:\sbt\sbt\bin;%JAVA_HOME%\bin;%PYTHON%\Scripts;%PATH%
-  - cmd: echo %PATH%
   - cmd: SET SBT_OPTS=-XX:MaxPermSize=2g -Xmx4g
   - cmd: SET JAVA_OPTS=-XX:MaxPermSize=2g -Xmx4g
   - cmd: java -version
-  - cmd: pip install codecov
+  - cmd: pip install --disable-pip-version-check codecov
 
 build_script:
   - sbt windows:packageBin
 
 test_script:
-  - sbt coverage test test-ui:test coverageReport codacyCoverage
+  - sbt coverage test test-ui:test coverageReport
 
 after_test:
   - codecov
@@ -54,4 +49,4 @@ deploy:
 
 cache:
   - C:\sbt\
-  - C:\Users\appveyor\.ivy2
+  - C:\Users\appveyor\.ivy2\
