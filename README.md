@@ -1,8 +1,8 @@
 # Accounts
 
-[![Travis linux](https://img.shields.io/travis/bretts-org/accounts/master.svg?label=linux)](https://travis-ci.org/bretts-org/accounts)
-[![Travis macOS](https://img.shields.io/travis/bretts-org/accounts/master.svg?label=macOS)](https://travis-ci.org/bretts-org/accounts)
-[![AppVeyor](https://img.shields.io/appveyor/ci/aebrett/accounts/master.svg?label=windows)](https://ci.appveyor.com/project/aebrett/accounts)
+[![linux](https://img.shields.io/circleci/project/bretts-org/accounts/master.svg?label=linux)](https://circleci.com/gh/bretts-org/accounts)
+[![macOS](https://img.shields.io/travis/bretts-org/accounts/master.svg?label=macOS)](https://travis-ci.org/bretts-org/accounts)
+[![windows](https://img.shields.io/appveyor/ci/aebrett/accounts/master.svg?label=windows)](https://ci.appveyor.com/project/aebrett/accounts)
 [![Codacy grade](https://img.shields.io/codacy/grade/0240d5e9efa44dd9a684a052511ab7e5/master.svg)](https://www.codacy.com/app/aebrett/accounts)
 [![Codecov](https://img.shields.io/codecov/c/github/bretts-org/accounts/master.svg)](https://codecov.io/gh/bretts-org/accounts)
 [![GitHub release](https://img.shields.io/github/release/bretts-org/accounts.svg)](https://github.com/bretts-org/accounts/releases/latest)
