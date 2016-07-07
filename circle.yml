@@ -11,6 +11,9 @@ dependencies:
 test:
    override:
      - cat /dev/null | sbt coverage test test-ui:test coverageReport codacyCoverage
+   post:
+     - mkdir -p $CIRCLE_TEST_REPORTS/junit/
+     - cp target/junit-reports/*.xml $CIRCLE_TEST_REPORTS/junit/
 
 # CODACY_PROJECT_TOKEN specified in web settings
 # Email notifications disabled in web settings (rely on Appveyor for build emails)

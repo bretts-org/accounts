@@ -21,6 +21,6 @@ object Common {
       // "-Ywarn-numeric-widen", "-Ywarn-value-discard" <-- overly stringent warnings
     ),
 
-    testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest, "-u", (target.value / "test-reports").toString)
+    testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest, "-u", (target.value / "junit-reports").toString)
   )
 }
