@@ -10,4 +10,4 @@ dependencies:
 test:
    override:
      - java -version
-     - sbt coverage test test-ui:test coverageReport codacyCoverage
+     - cat /dev/null | sbt coverage test test-ui:test coverageReport codacyCoverage
