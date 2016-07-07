@@ -1,3 +1,4 @@
+import sbt._
 import sbt.Keys._
 
 object Common {
@@ -18,6 +19,8 @@ object Common {
       "-Ywarn-adapted-args", "-Ywarn-dead-code", "-Ywarn-inaccessible", "-Ywarn-infer-any",
       "-Ywarn-nullary-override", "-Ywarn-nullary-unit", "-Ywarn-unused", "-Ywarn-unused-import"
       // "-Ywarn-numeric-widen", "-Ywarn-value-discard" <-- overly stringent warnings
-    )
+    ),
+
+    testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest, "-u", (target.value / "test-reports").toString)
   )
 }
