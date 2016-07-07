@@ -14,6 +14,8 @@ object UiTest {
     javaOptions in UiTest += "-Dtestfx.robot=glass",
     javaOptions in UiTest += "-Dglass.platform=Monocle",
     javaOptions in UiTest += "-Dmonocle.platform=Headless",
-    javaOptions in UiTest += "-Dprism.order=sw"
+    javaOptions in UiTest += "-Dprism.order=sw",
+    // Workaround for JVM EXCEPTION_ACCESS_VIOLATION crashes in javafx_font.dll when headless
+    javaOptions in UiTest += "-Dprism.text=t2k"
   )
 }
