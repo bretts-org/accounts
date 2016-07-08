@@ -9,6 +9,6 @@ object VersionEye {
     sys.env.get("VERSIONEYE_API_KEY").map { t =>
       apiKey in versioneye := t
     }.toSeq ++ Seq(
-      existingProjectId in versioneye := "577f5aad5bb13900493de5bf"
+      existingProjectId in versioneye := "577f754a5bb1390040177b76"
     )
 }
