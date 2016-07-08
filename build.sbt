@@ -9,4 +9,6 @@ val accounts = (
     settings UiTest.settings
     enablePlugins(Native.plugins: _*)
     settings Native.settings
+    enablePlugins(VersionEye.plugins: _*)
+    settings VersionEye.settings
 )

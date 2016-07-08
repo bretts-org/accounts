@@ -5,6 +5,7 @@
 [![windows](https://img.shields.io/appveyor/ci/aebrett/accounts/master.svg?label=windows)](https://ci.appveyor.com/project/aebrett/accounts)
 [![Codacy grade](https://img.shields.io/codacy/grade/0240d5e9efa44dd9a684a052511ab7e5/master.svg)](https://www.codacy.com/app/aebrett/accounts)
 [![Codecov](https://img.shields.io/codecov/c/github/bretts-org/accounts/master.svg)](https://codecov.io/gh/bretts-org/accounts)
+[![VersionEye](https://img.shields.io/versioneye/d/user/projects/577f5aad5bb13900493de5bf.svg)](https://www.versioneye.com/user/projects/577f5aad5bb13900493de5bf)
 [![GitHub release](https://img.shields.io/github/release/bretts-org/accounts.svg)](https://github.com/bretts-org/accounts/releases/latest)
 
 Accounting software for the [Cortijo Rosario](http://www.cortijo-rosario.com).
