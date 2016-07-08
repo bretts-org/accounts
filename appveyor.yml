@@ -12,14 +12,11 @@ install:
         )
         [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\sbt-bin.zip", "C:\sbt")
       }
-  - cmd: Set PYTHON=C:\Python35
-  - cmd: SET PATH=C:\sbt\sbt\bin;%JAVA_HOME%\bin;%PYTHON%\Scripts;%PATH%
-  - cmd: SET SBT_OPTS=-XX:MaxPermSize=2g -Xmx4g
-  - cmd: SET JAVA_OPTS=-XX:MaxPermSize=2g -Xmx4g
-  - cmd: dir C:\Python35
+  - cmd: set PYTHON=C:\Python35
+  - cmd: set PATH=C:\sbt\sbt\bin;%JAVA_HOME%\bin;%PYTHON%\Scripts;%PATH%
+  - cmd: set SBT_OPTS=-XX:MaxPermSize=2g -Xmx4g
+  - cmd: set JAVA_OPTS=-XX:MaxPermSize=2g -Xmx4g
   - cmd: pip install --disable-pip-version-check codecov
-  - cmd: pip show -f --disable-pip-version-check codecov
-  - cmd: dir C:\Python35
   - cmd: java -version
 
 build_script:
