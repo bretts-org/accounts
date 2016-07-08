@@ -11,4 +11,9 @@ addSbtPlugin("com.typesafe.sbt" % "sbt-git" % "0.8.5")
 addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.1.1")
 addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.3.5")
 addSbtPlugin("com.codacy" % "sbt-codacy-coverage" % "1.3.0")
-addSbtPlugin("com.versioneye" % "sbt-versioneye-plugin" % "0.2.0")
+
+// Dependencies for local versioneye plugin
+libraryDependencies ++= Seq(
+  "com.fasterxml.jackson.module" %%  "jackson-module-scala" % "2.6.1",
+  "org.scala-lang" %  "scala-library" % "2.10.2", "org.scalaj" %% "scalaj-http" % "1.1.5"
+)
