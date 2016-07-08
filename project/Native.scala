@@ -14,9 +14,9 @@ object Native {
   lazy val settings = Seq(
     version in Windows := {
       // strip off any non-numeric parts when building the msi package, since WiX requires
-      // version to be of the form x.y.z[.b], where x < 256, y < 256 and z < 65536
+      // version to be of the form x.x.y[.y], where 0 <= x < 256 and 0 <= y < 65536
       version.value match {
-        case GitDescribeRegex(v, nCommits, sha) => s"$v.$nCommits"
+        case GitDescribeRegex(v, numAdditionalCommits, sha) => s"$v.$numAdditionalCommits"
         case BaseVersionWithCommitRegex(v, sha) => v
         case v => v
       }
