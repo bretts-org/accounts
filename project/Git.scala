@@ -6,6 +6,6 @@ object Git {
   lazy val plugins = Seq(GitVersioning)
 
   lazy val settings = Seq(
-    git.baseVersion := "1.0"
+    git.useGitDescribe := true
   )
 }

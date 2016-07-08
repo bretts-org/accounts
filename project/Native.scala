@@ -6,12 +6,21 @@ import sbt.Keys._
 
 object Native {
 
+  private val GitDescribeRegex = "([0-9\\.]+)-([0-9]+)-([a-z0-9]+)".r
+  private val BaseVersionWithCommitRegex = "([0-9\\.]+)-([a-z0-9]+)".r
+
   lazy val plugins = Seq(JavaAppPackaging, WindowsPlugin)
 
   lazy val settings = Seq(
-    // strip off any version suffixes when building the msi package, since WiX requires
-    // version to be of the form x.y.z, where x < 256, y < 256 and z < 65536
-    version in Windows := version.value.replaceFirst("-.*", ""),
+    version in Windows := {
+      // strip off any non-numeric parts when building the msi package, since WiX requires
+      // version to be of the form x.y.z[.b], where x < 256, y < 256 and z < 65536
+      version.value match {
+        case GitDescribeRegex(v, nCommits, sha) => s"$v.$nCommits"
+        case BaseVersionWithCommitRegex(v, sha) => v
+        case v => v
+      }
+    },
 
     // general package information
     maintainer := "Andrew Brett <git@bretts.org>",
