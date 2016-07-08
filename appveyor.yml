@@ -16,8 +16,11 @@ install:
   - cmd: SET PATH=C:\sbt\sbt\bin;%JAVA_HOME%\bin;%PYTHON%\Scripts;%PATH%
   - cmd: SET SBT_OPTS=-XX:MaxPermSize=2g -Xmx4g
   - cmd: SET JAVA_OPTS=-XX:MaxPermSize=2g -Xmx4g
-  - cmd: java -version
+  - cmd: dir C:\Python35
   - cmd: pip install --disable-pip-version-check codecov
+  - cmd: pip show -f --disable-pip-version-check codecov
+  - cmd: dir C:\Python35
+  - cmd: java -version
 
 build_script:
   - sbt windows:packageBin
@@ -49,4 +52,5 @@ deploy:
 
 cache:
   - C:\sbt\
-  - C:\Users\appveyor\.ivy2\
+  - %USERPROFILE%\.ivy2\
+  - %USERPROFILE%\.sbt\

@@ -4,14 +4,16 @@ os: osx
 osx_image: xcode8
 
 install:
-  - curl -s https://raw.githubusercontent.com/paulp/sbt-extras/e428bbdb514e1ffe245010b3c4f69e9dfa4bbdb3/sbt > ~/sbt
-  - chmod 0755 ~/sbt
+  - [[ ! -f ~/sbt ]] && \
+    curl -s https://raw.githubusercontent.com/paulp/sbt-extras/e428bbdb514e1ffe245010b3c4f69e9dfa4bbdb3/sbt > ~/sbt && \
+    chmod 0755 ~/sbt
   - java -version
 
 cache:
   directories:
-    - $HOME/.ivy2/cache
-    - $HOME/.sbt
+    - ~/sbt
+    - ~/.ivy2
+    - ~/.sbt
 
 script:
   - ~/sbt test test-ui:test

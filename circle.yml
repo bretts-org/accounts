@@ -8,7 +8,7 @@ dependencies:
     - cat /dev/null | sbt test:compile versioneye:updateProject
 
   cache_directories:
-    - "~/.ivy2"
+    # ~/.ivy2 cached by default
     - "~/.sbt"
 
 test:
