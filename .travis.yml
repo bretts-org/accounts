@@ -4,7 +4,10 @@ os: osx
 osx_image: xcode7.3
 
 install:
-  - "[[ ! -f ~/sbt ]] && curl -s https://raw.githubusercontent.com/paulp/sbt-extras/e428bbdb514e1ffe245010b3c4f69e9dfa4bbdb3/sbt > ~/sbt && chmod 0755 ~/sbt"
+  - if test ! -f ~/sbt; then
+      curl -s https://raw.githubusercontent.com/paulp/sbt-extras/e428bbdb514e1ffe245010b3c4f69e9dfa4bbdb3/sbt > ~/sbt &&
+      chmod 0755 ~/sbt
+    ; fi
   - java -version
 
 cache:
