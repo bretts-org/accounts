@@ -40,8 +40,8 @@ deploy:
   description: ''
   auth_token:
     secure: XSSEVEdWgj60ZMOTimzmd92UJc4aP5B46CuNM+y2llK6onAqOoM0Y5RcIrCD3dZF
-  # Note: regexp is needed here, vs. ant-style path in artifacts section
-  artifact: /target\\windows\\.*\.msi/
+  # Note: filename-only regexp is needed here, vs. ant-style path in artifacts section
+  artifact: /.*\.msi/
   draft: false
   prerelease: true
   on:
