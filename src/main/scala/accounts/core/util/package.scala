@@ -1,6 +1,17 @@
 package accounts.core
 
+import accounts.core.util.Os._
+
 package object util {
+
+  private[util] def os(osName: String): Option[Os] = osName.split(" ").head.toLowerCase match {
+    case "linux" => Some(Linux)
+    case "mac" => Some(MacOs)
+    case "windows" => Some(Windows)
+    case _ => None
+  }
+
+  def os: Option[Os] = os(sys.props("os.name"))
 
   implicit class TraversableOps[A](s: Seq[A]) {
     def singleOption: Option[A] = s match {
