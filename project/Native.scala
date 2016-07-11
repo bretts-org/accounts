@@ -39,11 +39,12 @@ object Native {
 
       lightOptions ++= Seq(
         "-out",
-        (target.value / "windows" / s"${packageSummary.value}-${version.value}.msi").toString
+        (target.value / "windows" / s"${name.value}-${version.value}.msi").toString
       )
     )
 
     case "mac" => Seq(
+      jdkPackagerBasename := s"${name.value}-${version.value}",
       jdkPackagerType := "dmg",
       jdkAppIcon := Some((resourceDirectory in Compile).value / "icon" / "coins-euro.icns")
     )
