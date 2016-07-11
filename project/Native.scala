@@ -35,7 +35,12 @@ object Native {
 
       // wix build information
       wixProductId := "d3b13f53-01b7-4f5c-9c36-44588a83f72c",
-      wixProductUpgradeId := "a6f8f3ba-1ecc-421d-9713-4a0ecc5b528d"
+      wixProductUpgradeId := "a6f8f3ba-1ecc-421d-9713-4a0ecc5b528d",
+
+      lightOptions ++= Seq(
+        "-out",
+        (target.value / "windows" / s"${packageSummary.value}-${version.value}.msi").toString
+      )
     )
 
     case "mac" => Seq(
