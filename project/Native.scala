@@ -9,8 +9,9 @@ import sbt.Keys._
 
 object Native {
 
-  private val GitDescribeRegex = "([0-9\\.]+)-([0-9]+)-([a-z0-9]+)".r
-  private val BaseVersionWithCommitRegex = "([0-9\\.]+)-([a-z0-9]+)".r
+  private val GitDescribeRegex = "([0-9\\.]+)-([0-9]+)-([a-z0-9]+)(?:-SNAPSHOT)?".r
+  private val BaseVersionWithCommitRegex = "([0-9\\.]+)-([a-z0-9]+)(?:-SNAPSHOT)?".r
+  private val GitTagRegex = "([0-9\\.]+)(?:-SNAPSHOT)?".r
 
   lazy val plugins = Seq(JavaAppPackaging, WindowsPlugin, JDKPackagerPlugin)
 
@@ -22,6 +23,7 @@ object Native {
         version.value match {
           case GitDescribeRegex(v, numAdditionalCommits, sha) => s"$v.$numAdditionalCommits"
           case BaseVersionWithCommitRegex(v, sha) => v
+          case GitTagRegex(v) => v
           case v => v
         }
       },
