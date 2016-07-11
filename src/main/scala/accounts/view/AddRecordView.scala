@@ -59,6 +59,7 @@ class AddRecordView(vm: AddRecordViewModel) extends View {
           text = "Reference:"
         }, columnIndex = 0, rowIndex = 2)
         add(new TextField {
+          id = "addRecordReferenceField"
           textFormatter = new TextFormatter(View.optionIntConverter) {
             value <==> vm.reference
           }
@@ -68,14 +69,16 @@ class AddRecordView(vm: AddRecordViewModel) extends View {
           text = "Transaction Type:"
         }, columnIndex = 0, rowIndex = 3)
         add(new ComboBox[Option[TransactionType]](vm.transactionTypes) {
+          id = "addRecordTransactionTypeCombo"
           editable = true
           converter = StringConverter[Option[TransactionType]]({
             Option(_).filter(!_.isEmpty).map {
               case PositiveIntRegex(s) => TransactionType.withValue(s.toInt)
-              case s =>
-                TransactionType.values
-                  .filter(_.displayString.toLowerCase.contains(s.toLowerCase))
-                  .headOption.getOrElse(throw new IllegalArgumentException(s"Unrecognised type: $s"))
+              case s => TransactionType.withNameOption(s).getOrElse {
+                TransactionType.values.sortBy(_.displayString)
+                  .find(_.displayString.toLowerCase.contains(s.toLowerCase))
+                  .getOrElse(throw new IllegalArgumentException(s"Unrecognised type: $s"))
+              }
             }
           },
           {
@@ -91,13 +94,14 @@ class AddRecordView(vm: AddRecordViewModel) extends View {
           text = "Income Type:"
         }, columnIndex = 0, rowIndex = 4)
         add(new ComboBox[Option[IncomeType]](vm.incomeTypes) {
+          id = "addRecordIncomeTypeCombo"
           editable = true
           converter = StringConverter[Option[IncomeType]]({
             Option(_).filter(!_.isEmpty).map {
               case PositiveIntRegex(s) => IncomeType.withValue(s.toInt)
               case s =>
-                IncomeType.values
-                  .find(_.toString.toLowerCase.contains(s.toLowerCase))
+                IncomeType.values.sortBy(_.displayString)
+                  .find(_.displayString.toLowerCase.contains(s.toLowerCase))
                   .getOrElse(throw new IllegalArgumentException(s"Unrecognised type: $s"))
             }
           },
@@ -113,6 +117,7 @@ class AddRecordView(vm: AddRecordViewModel) extends View {
           text = "Credit:"
         }, columnIndex = 0, rowIndex = 5)
         add(new TextField {
+          id = "addRecordCreditField"
           textFormatter = new TextFormatter(View.optionPositiveBigDecimalConverter) {
             value <==> vm.credit
           }
@@ -122,6 +127,7 @@ class AddRecordView(vm: AddRecordViewModel) extends View {
           text = "Debit:"
         }, columnIndex = 0, rowIndex = 6)
         add(new TextField {
+          id = "addRecordDebitField"
           textFormatter = new TextFormatter(View.optionPositiveBigDecimalConverter) {
             value <==> vm.debit
           }
@@ -131,12 +137,13 @@ class AddRecordView(vm: AddRecordViewModel) extends View {
           text = "Account Type:"
         }, columnIndex = 0, rowIndex = 7)
         add(new ComboBox[Option[AccountType]](vm.accountTypes) {
+          id = "addRecordAccountTypeCombo"
           editable = true
           converter = StringConverter[Option[AccountType]]({
             Option(_).filter(!_.isEmpty).map {
               case PositiveIntRegex(s) => AccountType.withValue(s.toInt)
               case s =>
-                AccountType.values
+                AccountType.values.sortBy(_.toString)
                   .find(_.toString.toLowerCase.contains(s.toLowerCase))
                   .getOrElse(throw new IllegalArgumentException(s"Unrecognised type: $s"))
             }
@@ -153,6 +160,7 @@ class AddRecordView(vm: AddRecordViewModel) extends View {
           text = "Description:"
         }, columnIndex = 0, rowIndex = 8)
         add(new TextField {
+          id = "addRecordDescriptionField"
           textFormatter = new TextFormatter(View.optionStringConverter) {
             value <==> vm.description
           }
@@ -163,6 +171,7 @@ class AddRecordView(vm: AddRecordViewModel) extends View {
           alignment = Pos.CenterRight
           children = Seq(
             new Button {
+              id = "addRecordNextButton"
               text = "Next"
               defaultButton = true
               disable <== vm.incomplete
@@ -173,6 +182,7 @@ class AddRecordView(vm: AddRecordViewModel) extends View {
               }
             },
             new Button {
+              id = "addRecordOkButton"
               text = "OK"
               disable <== vm.incomplete
               focusTraversable = false
@@ -182,6 +192,7 @@ class AddRecordView(vm: AddRecordViewModel) extends View {
               }
             },
             new Button {
+              id = "addRecordCancelButton"
               text = "Cancel"
               cancelButton = true
               focusTraversable = false

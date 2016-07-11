@@ -24,12 +24,13 @@ trait ViewTest
 
   // Capture the root node, otherwise it may be garbage collected
   // and cause test failures
-  protected var gcProtectedRoot: Parent = _
+  protected var gcProtectedRoot: Option[Parent] = None
 
   override final def start(stage: Stage): Unit = {
-    gcProtectedRoot = rootNode
+    val newRoot = rootNode
+    gcProtectedRoot = Some(newRoot)
     stage.scene = new Scene {
-      root = gcProtectedRoot
+      root = newRoot
     }
     stage.show()
   }

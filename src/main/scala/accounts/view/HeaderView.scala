@@ -19,10 +19,7 @@ class HeaderView(filters: FiltersViewModel, addRecord: AddRecordView)
     id = "transactionCodeField"
     promptText = "Code"
     hgrow = Priority.Always
-    textFormatter = new TextFormatter(StringConverter[Option[Int]](
-      Option(_).filter(!_.isEmpty).map(_.toInt),
-      _.map(_.toString).getOrElse("")
-    )) {
+    textFormatter = new TextFormatter(View.optionIntConverter) {
       value <==> filters.textFilter
     }
   }

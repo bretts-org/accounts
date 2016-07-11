@@ -3,7 +3,6 @@ package accounts.test.view.matchers
 import org.hamcrest.{BaseMatcher, Description}
 import org.scalactic.TypeCheckedTripleEquals
 import org.scalatest.Assertions
-import org.testfx.util.WaitForAsyncUtils
 
 import scala.util.{Failure, Success, Try}
 
@@ -13,8 +12,7 @@ trait MatchersBase extends Assertions with TypeCheckedTripleEquals {
     private var result: Try[Unit] = Success(())
 
     override def matches(item: Any): Boolean = {
-      // ensure all events have finished processing before checking assertions
-      result = WaitForAsyncUtils.waitForAsyncFx(60000, () => Try(assertion(item.asInstanceOf[A])))
+      result = Try(assertion(item.asInstanceOf[A]))
       result.isSuccess
     }
 

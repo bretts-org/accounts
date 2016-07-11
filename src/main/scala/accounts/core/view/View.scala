@@ -2,7 +2,6 @@ package accounts.core.view
 
 import java.time.{LocalDate, Month}
 import java.time.format.DateTimeFormatter
-import java.time.temporal.{TemporalAccessor, TemporalQuery}
 
 import scala.language.implicitConversions
 import scalafx.application.Platform
@@ -15,11 +14,10 @@ import scalafx.util.StringConverter
 object View {
   private val dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
   private val numericMonthRegex = "([0-9]{1,2})".r
+  private val positiveTwoDigitRegex = """\+?[0-9]+(\.[0-9]{0,2})?""".r
 
   def formatDate(ld: LocalDate): String = dateFormatter.format(ld)
-  def toDate(s: String): LocalDate = dateFormatter.parse(s, new TemporalQuery[LocalDate] {
-    override def queryFrom(temporal: TemporalAccessor): LocalDate = LocalDate.from(temporal)
-  })
+  def toDate(s: String): LocalDate = dateFormatter.parse(s, LocalDate.from(_))
 
   def formatDecimal(b: BigDecimal): String = f"$b%.2f"
 
@@ -34,7 +32,10 @@ object View {
   )
 
   val optionPositiveBigDecimalConverter = StringConverter[Option[BigDecimal]](
-    Option(_).filter(!_.isEmpty).map(BigDecimal(_)).filter(_ > 0),
+    Option(_).filter(!_.isEmpty).map {
+      case s @ positiveTwoDigitRegex(_*) => BigDecimal(s)
+      case s => throw new IllegalArgumentException(s"Invalid positive amount: $s")
+    },
     _.map(formatDecimal).getOrElse("")
   )
 
