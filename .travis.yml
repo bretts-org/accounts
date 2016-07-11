@@ -3,6 +3,11 @@ language: java
 os: osx
 osx_image: xcode8
 
+git:
+  # Clone 500 commits deep to (hopefully) ensure we have the most recent tag for git describe to
+  # derive a version number
+  depth: 500
+
 install:
   - if test ! -f ~/sbt; then
       curl -s https://raw.githubusercontent.com/paulp/sbt-extras/e428bbdb514e1ffe245010b3c4f69e9dfa4bbdb3/sbt > ~/sbt &&
