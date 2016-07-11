@@ -2,14 +2,15 @@ package accounts.view
 
 import accounts.core.view.View
 import accounts.viewmodel.ShellViewModel
+import ShellView._
 
+import scalafx.Includes._
 import scalafx.application.JFXApp.PrimaryStage
 import scalafx.application.Platform
 import scalafx.scene.Scene
 import scalafx.scene.control.{Tab, TabPane}
+import scalafx.scene.image.Image
 import scalafx.scene.layout._
-
-import ShellView._
 
 object ShellView {
   val WindowWidth = Region.USE_COMPUTED_SIZE
@@ -28,6 +29,8 @@ class ShellView(vm: ShellViewModel) extends View {
 
   val stage = new PrimaryStage {
     title = "Cortijo Rosario Accounts"
+
+    icons += new Image(getClass.getResourceAsStream("/icon/coins-euro.png"))
 
     scene = new Scene(width = WindowWidth, height = WindowHeight) {
       root = new BorderPane {

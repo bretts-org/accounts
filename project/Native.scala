@@ -38,6 +38,7 @@ object Native {
 
     case "mac" => Seq(
       jdkPackagerType := "dmg",
+      jdkAppIcon := Some((resourceDirectory in Compile).value / "icon" / "coins-euro.icns")
     )
 
     case _ => Seq()
