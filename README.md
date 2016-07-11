@@ -18,13 +18,13 @@ Accounting software for the [Cortijo Rosario](http://www.cortijo-rosario.com).
 * Transaction and P/L filtering by account type, date range and transaction type
 * Add new transactions
 
-## Install from binary
+## Install from Windows binary
 
 ### Prerequisites
 * [Java Runtime (JRE)](https://java.com/en/download/) (1.8.0_91 or greater)
 
 ### Instructions
-* Download and install *Accounts.msi* from the [latest accounts release](https://github.com/bretts-org/accounts/releases/latest)
+* Download and install **Accounts-*.msi** from the [latest accounts release](https://github.com/bretts-org/accounts/releases/latest)
 * Backup your existing transaction file
 * From the installation directory (normally `C:\Program Files (x86)\Accounts`), run:<br/>
   `bin\accounts.bat "--transfile=C:\path\to\TRANS"`
