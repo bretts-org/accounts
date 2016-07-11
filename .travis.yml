@@ -20,6 +20,16 @@ script:
   - ~/sbt jdkPackager:packageBin
   - ~/sbt test test-ui:test
 
+deploy:
+  provider: releases
+  api_key:
+    secure: 0ql6lptqxiaLI1p6gRj9ZR3xtGxYN0vb3Ka0xVryk7ImXwUbBC2QebwXE6jtpXMfYqwZQQgFrCezyyWf3k6X7sWVIxFg+bXNdhG/mVATnLg0Vs7sQnbWLTkhkQcd7xC55XN0vob6dr5zqPXQ6teGPfRNmLYzdXKpYWUoGozEjzL6ARo54BVhelMwgXMYYr+Q+aTwKprXArMYiUNskmQVHy8lwuJEMF2eJMN8RGEDTazxXaG/ixawnkpVXLbV9t09y3o0NN5LgyjY3XYEi0FH+Av4+R9xBy4CKuD+VIvlRPjt3kvfWmSNvOW8K30KsoOUVsYEeJyd6Ifqm3M0E+hSF6/eb31TJvC89PzYzQ2WlYLFTmuEdbxTgSLTY0mB/iyM8DJIsFF2lcR1jII2R4LWu0zJYt+/wbP8SSyf1ePLgYVsrqnN+YB1daVAsR2hM53JWA8hzDAE7dTTG0+AIKmVMUFADjr7KkBp4Ek6FFPESoCBcJM9C7MjFVjo0HkY1II+0hKUnvyMMyBuaZIP9SaC5hpYe8FZhDr48KymmWrauJjp/0IYxBCupxyKnbK2k4PY6+Vwl/aq78yz9ryhbTRpR10TrOEqOi84jdHw2I0I1m/RPFKfSMKy32sGBeJvcWbnNrba9/9R4YNFAXhX5uyTAtwYneg7HLOT8jta7xtfWA0=
+  file: "target/universal/jdkpackager/bundles/Accounts*.dmg"
+  skip_cleanup: true
+  overwrite: true
+  on:
+    tags: true
+
 # Disable notifications (rely on Appveyor for build emails)
 notifications:
   email: false
