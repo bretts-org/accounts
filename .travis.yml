@@ -17,6 +17,7 @@ cache:
     - ~/.sbt
 
 script:
+  - ~/sbt jdkPackager:packageBin
   - ~/sbt test test-ui:test
 
 # Disable notifications (rely on Appveyor for build emails)
