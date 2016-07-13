@@ -15,6 +15,12 @@ package object util {
   def NonEmptySeq[A](head: A, tail: Iterable[A]): NonEmptySeq[A] = OneAnd(head, tail.toSeq)
 
   implicit class TraversableOps[A](s: Seq[A]) {
+
+    def maxOption[B >: A](implicit cmp: Ordering[B]): Option[A] = s match {
+      case Seq() => None
+      case _ => Some(s.max[B])
+    }
+
     def singleOption: Option[A] = s match {
       case Seq() => None
       case Seq(a) => Some(a)
@@ -39,5 +45,8 @@ package object util {
   implicit class OneAndOps[F[_], A](nonEmpty: OneAnd[F, A]) {
 
     def toSeq(implicit ev: F[A] <:< TraversableOnce[A], F: MonadCombine[F]): Seq[A] = nonEmpty.unwrap.toSeq
+
+    def max[B >: A](implicit ev: F[A] <:< TraversableOnce[A], F: MonadCombine[F], cmp: Ordering[B]): A =
+      nonEmpty.unwrap.max(cmp)
   }
 }
