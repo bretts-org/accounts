@@ -1,6 +1,11 @@
 package accounts.core
 
+import _root_.cats.MonadCombine
 import _root_.cats.data.OneAnd
+
+import scala.collection.TraversableOnce
+import scala.language.higherKinds
+
 package object util {
 
   val seq = accounts.core.cats.std.seq
@@ -15,6 +20,11 @@ package object util {
       case Seq(a) => Some(a)
       case _ => throw new IllegalStateException(s"Expected 0 or 1 elements, but got: $s")
     }
+
+    def toNonEmpty: Option[NonEmptySeq[A]] = s match {
+      case Seq() => None
+      case head +: tail => Some(NonEmptySeq(head, tail))
+    }
   }
 
   implicit class TraversableTupleOps[A, +B](s: Seq[(A, B)]) {
@@ -24,5 +34,10 @@ package object util {
     def groupValues[C](f: Seq[B] => C): Map[A, C] =
       s.groupBy { case (k, v) => k }
        .mapValues(s => f(s.map { case (k, v) => v }))
+  }
+
+  implicit class OneAndOps[F[_], A](nonEmpty: OneAnd[F, A]) {
+
+    def toSeq(implicit ev: F[A] <:< TraversableOnce[A], F: MonadCombine[F]): Seq[A] = nonEmpty.unwrap.toSeq
   }
 }
