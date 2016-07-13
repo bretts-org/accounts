@@ -1,6 +1,13 @@
 package accounts.core
 
+import _root_.cats.data.OneAnd
 package object util {
+
+  val seq = accounts.core.cats.std.seq
+
+  type NonEmptySeq[A] = OneAnd[Seq, A]
+  def NonEmptySeq[A](head: A, tail: A*): NonEmptySeq[A] = OneAnd(head, tail)
+  def NonEmptySeq[A](head: A, tail: Iterable[A]): NonEmptySeq[A] = OneAnd(head, tail.toSeq)
 
   implicit class TraversableOps[A](s: Seq[A]) {
     def singleOption: Option[A] = s match {
