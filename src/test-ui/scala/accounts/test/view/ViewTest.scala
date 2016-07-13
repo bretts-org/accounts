@@ -10,7 +10,11 @@ import org.scalatest.WordSpec
 import scalafx.scene.{Parent, Scene}
 import scalafx.stage.Stage
 
-trait ViewTest
+trait Fixture {
+  def root: Parent
+}
+
+trait ViewTest[A <: Fixture]
   extends WordSpec
   with SfxRobot
   with JFXAppFixture
@@ -24,16 +28,15 @@ trait ViewTest
 
   // Capture the root node, otherwise it may be garbage collected
   // and cause test failures
-  protected var gcProtectedRoot: Option[Parent] = None
+  protected final var fixture: A = _
 
   override final def start(stage: Stage): Unit = {
-    val newRoot = rootNode
-    gcProtectedRoot = Some(newRoot)
+    fixture = createFixture
     stage.scene = new Scene {
-      root = newRoot
+      root = fixture.root
     }
     stage.show()
   }
 
-  def rootNode: Parent
+  def createFixture: A
 }

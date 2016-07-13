@@ -1,29 +1,30 @@
 package accounts.view
 
 import accounts.model.FiltersModel
-import accounts.test.view.ViewTest
+import accounts.test.view.{Fixture, ViewTest}
 import accounts.viewmodel.FiltersViewModel
 import org.testfx.api.FxAssert.verifyThat
 import org.mockito.Mockito._
 import org.scalatest.mockito.MockitoSugar
 
-import scalafx.scene.Parent
 import scalafx.scene.control.Button
 import scalafx.scene.input.KeyCode
 
-class HeaderViewTest extends ViewTest with MockitoSugar {
+case class HeaderViewTestFixture(addRecordView: AddRecordView) extends Fixture {
+  val filtersModel = new FiltersModel()
+  val filtersVm = new FiltersViewModel(filtersModel)
 
-  def filtersModel = new FiltersModel()
-  def filtersVm = new FiltersViewModel(filtersModel)
+  val header = new HeaderView(filtersVm, addRecordView)
+  val root = header.content
+}
 
-  val addRecordView = mock[AddRecordView]
+class HeaderViewTest extends ViewTest[HeaderViewTestFixture] with MockitoSugar {
 
-  def header = new HeaderView(filtersVm, addRecordView)
-
-  override def rootNode: Parent = {
+  override def createFixture = {
+    val addRecordView = mock[AddRecordView]
     when(addRecordView.button).thenReturn(new Button)
 
-    header.content
+    HeaderViewTestFixture(addRecordView)
   }
 
   "Header panel" when {

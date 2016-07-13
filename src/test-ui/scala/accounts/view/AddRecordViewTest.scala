@@ -4,29 +4,26 @@ import java.time.LocalDate
 
 import accounts.model.{AddRecordModel, FiltersModel, GridModel}
 import accounts.record.repository.RecordRepositoryStub
-import accounts.test.view.ViewTest
+import accounts.test.view.{Fixture, ViewTest}
 import accounts.viewmodel.AddRecordViewModel
 import org.testfx.api.FxAssert._
 
-import scalafx.scene.Parent
 import scalafx.scene.input.KeyCode
 
-class AddRecordViewTest extends ViewTest {
-
-  var currentModel: Option[AddRecordModel] = None
-
-  override def rootNode: Parent = {
+case class AddRecordViewTestFixture() extends Fixture {
     val repo = new RecordRepositoryStub
     val filtersModel = new FiltersModel
     val gridModel = new GridModel(repo, filtersModel)
     val model = new AddRecordModel(gridModel, filtersModel)
-    currentModel = Some(model)
-
     val vm = new AddRecordViewModel(model)
 
     val view = new AddRecordView(vm)
-    view.button
+  val root = view.button
   }
+
+class AddRecordViewTest extends ViewTest[AddRecordViewTestFixture] {
+
+  override def createFixture = AddRecordViewTestFixture()
 
   private def openWindow(): Unit = clickOn("#addTransactionButton")
   private def closeWindow(): Unit = clickOn("#addRecordCancelButton")

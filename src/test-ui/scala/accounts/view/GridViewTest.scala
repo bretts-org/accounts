@@ -2,25 +2,26 @@ package accounts.view
 
 import accounts.model.GridModel
 import accounts.record.repository.RecordRepositoryStub
-import accounts.test.view.ViewTest
+import accounts.test.view.{Fixture, ViewTest}
 import accounts.viewmodel.GridViewModel
-import org.scalatest.mockito.MockitoSugar
 import org.testfx.api.FxAssert.verifyThat
 import org.mockito.Mockito._
+import org.scalatest.mockito.MockitoSugar
 
-import scalafx.scene.Parent
+case class GridViewTestFixture(model: GridModel) extends Fixture {
+  val vm = new GridViewModel(model)
 
-class GridViewTest extends ViewTest with MockitoSugar {
+  val grid = new GridView(vm)
+  val root = grid.content
+}
 
-  val model = mock[GridModel]
+class GridViewTest extends ViewTest[GridViewTestFixture] with MockitoSugar {
 
-  def vm = new GridViewModel(model)
-  def grid = new GridView(vm)
-
-  override def rootNode: Parent = {
+  override def createFixture = {
+    val model: GridModel = mock[GridModel]
     when(model.records).thenReturn(RecordRepositoryStub.all)
 
-    grid.content
+    GridViewTestFixture(model)
   }
 
   "A grid" should {
