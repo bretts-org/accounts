@@ -8,6 +8,7 @@ import accounts.test.view.{Fixture, ViewTest}
 import accounts.viewmodel.AddRecordViewModel
 import org.testfx.api.FxAssert._
 
+import scala.util.Try
 import scalafx.scene.input.KeyCode
 
 case class AddRecordViewTestFixture() extends Fixture {
@@ -26,7 +27,9 @@ class AddRecordViewTest extends ViewTest[AddRecordViewTestFixture] {
   override def createFixture = AddRecordViewTestFixture()
 
   private def openWindow(): Unit = clickOn("#addTransactionButton")
-  private def closeWindow(): Unit = clickOn("#addRecordCancelButton")
+  private def closeWindow(): Unit = Try {
+    clickOn("#addRecordCancelButton")
+  }
 
   private def enterText(node: String, s: String, eraseAmount: Int = 0): Unit = {
     clickOn(node)
