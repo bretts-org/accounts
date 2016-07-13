@@ -42,7 +42,7 @@ class GridModelTest extends WordSpec with Matchers with TypeCheckedTripleEquals 
 
     "not automatically update from the repository" in {
       val f = fixture
-      f.records.all.remove(3)
+      f.records.loaded.remove(3)
       assert(f.model.records === onlyHotel)
     }
 
@@ -54,9 +54,9 @@ class GridModelTest extends WordSpec with Matchers with TypeCheckedTripleEquals 
 
     "update from the repository on save" in {
       val f = fixture
-      f.records.all.remove(3)
+      f.records.loaded.remove(3)
       f.model.save(newTrans)
-      assert(f.model.records === onlyHotel.patch(3, Seq(), 1))
+      assert(f.model.records === onlyHotel.patch(3, Seq(), 1) :+ newTrans)
     }
 
   }

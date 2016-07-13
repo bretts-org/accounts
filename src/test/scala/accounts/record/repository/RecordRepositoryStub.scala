@@ -22,7 +22,9 @@ object RecordRepositoryStub {
 }
 
 class RecordRepositoryStub extends RecordRepository {
-  override val all: mutable.Buffer[Record] = RecordRepositoryStub.all.toBuffer
+  override def all: Seq[Record] = loaded ++ saved
+
+  val loaded: mutable.Buffer[Record] = RecordRepositoryStub.all.toBuffer
 
   val saved: mutable.Buffer[Record] = mutable.Buffer()
 
