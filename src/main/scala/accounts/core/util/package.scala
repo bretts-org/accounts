@@ -47,6 +47,6 @@ package object util {
     def toSeq(implicit ev: F[A] <:< TraversableOnce[A], F: MonadCombine[F]): Seq[A] = nonEmpty.unwrap.toSeq
 
     def max[B >: A](implicit ev: F[A] <:< TraversableOnce[A], F: MonadCombine[F], cmp: Ordering[B]): A =
-      nonEmpty.unwrap.max(cmp)
+      nonEmpty.unwrap.max[B]
   }
 }
