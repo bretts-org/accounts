@@ -2,15 +2,14 @@ package accounts.model
 
 import java.time.LocalDate
 
+import accounts.core.util._
 import accounts.record.{AccountType, IncomeType, Transaction, TransactionType}
 
 class AddRecordModel(grid: GridModel, filters: FiltersModel) {
 
   private def defaultDate = Some(LocalDate.now)
-  private def defaultReference = grid.all.map(_.reference) match {
-    case Seq() => None
-    case refs => Some(refs.max + 1)
-  }
+
+  private def defaultReference = grid.all.map(_.reference).maxOption.map(_ + 1)
   private def defaultAccountType = filters.accountTypeFilter
 
   var date: Option[LocalDate] = defaultDate
