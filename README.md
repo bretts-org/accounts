@@ -26,7 +26,10 @@ Accounting software for the [Cortijo Rosario](http://www.cortijo-rosario.com).
 ### Instructions
 * Download and install **Accounts-*version*.msi** from the [latest accounts release](https://github.com/bretts-org/accounts/releases/latest)
 * Backup your existing transaction file
-* From the installation directory (normally `C:\Program Files (x86)\Accounts`), run:<br/>
+* Start the application:
+  * Open a command prompt by using WindowsKey + R, and typing `cmd`
+  * Change to the installation directory: `cd C:\Program Files (x86)\Accounts`
+  * Run (where `C:\path\to` is the location of your `TRANS` file):<br/>
   `bin\accounts.bat "--transfile=C:\path\to\TRANS"`
 
 ## Build/run from source
