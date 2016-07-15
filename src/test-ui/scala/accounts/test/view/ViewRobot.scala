@@ -57,19 +57,19 @@ trait ViewRobot extends SfxRobot {
     clickOn(combo)
     val comboPopup = lookup(".combo-box-popup")
 
-    // Scroll to top
+    // Scroll from current position to top, and then all the way down, searching
+    // for the combo item
     val items: ObservableBuffer[Option[TransactionType]] = combo.items()
     val topText = combo.converter().toString(items.head)
-    findItem(comboPopup, topText, topText, VerticalDirection.Up)
-
-    // Find item (or hit bottom of list)
     val bottomText = combo.converter().toString(items.last)
-    val item = findItem(comboPopup, comboItem, bottomText, VerticalDirection.Down)
+    val item =
+      findItem(comboPopup, comboItem, topText, VerticalDirection.Up) orElse
+      findItem(comboPopup, comboItem, bottomText, VerticalDirection.Down)
+
     item match {
       case Some(i) => clickOn(i)
       case None => throw new IllegalArgumentException(s"No item found with name $comboItem")
     }
-
 
   }
 }
