@@ -2,7 +2,6 @@ package accounts.test.view
 
 import accounts.test.view.matchers.ViewMatchers
 import com.typesafe.scalalogging.StrictLogging
-import io.scalatestfx.api.SfxRobot
 import io.scalatestfx.framework.scalatest.JFXAppFixture
 import org.scalactic.TypeCheckedTripleEquals
 import org.scalatest.WordSpec
@@ -16,7 +15,7 @@ trait Fixture {
 
 trait ViewTest[A <: Fixture]
   extends WordSpec
-  with SfxRobot
+  with ViewRobot
   with JFXAppFixture
   with ViewMatchers
   with TypeCheckedTripleEquals

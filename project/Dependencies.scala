@@ -20,9 +20,11 @@ object Dependencies {
 
     "org.scalatest" %% "scalatest" % "3.0.0-RC4" % Test,
     "org.mockito" % "mockito-core" % "2.0.79-beta"% Test,
+
     "io.scalatestfx" %% "scalatestfx" % "0.0.2-alpha" % UiTest.UiTest,
     // workaround for NoClassDefFoundError: scoverage/Invoker$ in UI tests
-    "org.scoverage" %% "scalac-scoverage-runtime" % "1.1.1" % UiTest.UiTest
+    "org.scoverage" %% "scalac-scoverage-runtime" % "1.1.1" % UiTest.UiTest,
+    "com.google.code.findbugs" % "jsr305" % "3.0.1" % UiTest.UiTest
   )
 
   val settings = Seq(
