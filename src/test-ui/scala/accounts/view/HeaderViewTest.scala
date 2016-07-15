@@ -161,7 +161,15 @@ class HeaderViewTest extends ViewTest[HeaderViewTestFixture] with MockitoSugar {
       verifyThat("#transactionCategoryCombo", hasComboText("Food"))
     }
 
-    "revert category and code when type is set to All Types" in {
+    "update category and code when type updated twice" in {
+      clickOn("#transactionTypeCombo", "Maintenance: Cortijo Kitchen")
+      clickOn("#transactionTypeCombo", "Income: Bar")
+      verifyThat("#transactionTypeCombo", hasComboText("Income: Bar"))
+      verifyThat("#transactionCodeField", hasText("509"))
+      verifyThat("#transactionCategoryCombo", hasComboText("Income"))
+    }
+
+    "revert category and code when type is reset to All Types" in {
       clickOn("#transactionTypeCombo", "Food: Fish")
       clickOn("#transactionTypeCombo", "All Types")
       verifyThat("#transactionTypeCombo", hasComboText("All Types"))
