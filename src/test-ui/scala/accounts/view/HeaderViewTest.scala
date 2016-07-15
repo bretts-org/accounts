@@ -173,8 +173,8 @@ class HeaderViewTest extends ViewTest[HeaderViewTestFixture] with MockitoSugar {
       clickOn("#transactionTypeCombo", "Food: Fish")
       clickOn("#transactionTypeCombo", "All Types")
       verifyThat("#transactionTypeCombo", hasComboText("All Types"))
-      verifyThat("#transactionCodeField", hasText(""))
-      verifyThat("#transactionCategoryCombo", hasComboText("All Categories"))
+      verifyThat("#transactionCodeField", hasText("1"))
+      verifyThat("#transactionCategoryCombo", hasComboText("Food"))
     }
   }
 

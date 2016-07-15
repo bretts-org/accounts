@@ -55,11 +55,13 @@ class FiltersViewModel(filters: FiltersModel) extends ViewModel {
   val transactionTypeFilter = Binding[Option[TransactionType]](filters.transactionTypeFilter) {
     filters.transactionTypeFilter = _
   }
-  transactionTypeFilter.onUiChange { tt =>
-    // TODO: Don't reset category when type is set back to None
-    textFilter() = tt.map(_.value)
-    transactionCategoryFilter() = tt.map(_.category)
-  }
+  transactionTypeFilter.onUiChange(_ match {
+    case Some(tt) =>
+      textFilter() = Some(tt.value)
+      transactionCategoryFilter() = Some(tt.category)
+    case None =>
+      textFilter() = transactionCategoryFilter().map(_.value)
+  })
 
   val startDateFilter = Binding[Option[LocalDate]](filters.startDateFilter) {
     filters.startDateFilter = _
