@@ -152,4 +152,22 @@ class HeaderViewTest extends ViewTest[HeaderViewTestFixture] with MockitoSugar {
     }
   }
 
+  "Transaction type combo" should {
+
+    "update category and code" in {
+      clickOn("#transactionTypeCombo", "Food: Fish")
+      verifyThat("#transactionTypeCombo", hasComboText("Food: Fish"))
+      verifyThat("#transactionCodeField", hasText("113"))
+      verifyThat("#transactionCategoryCombo", hasComboText("Food"))
+    }
+
+    "revert category and code when type is set to All Types" in {
+      clickOn("#transactionTypeCombo", "Food: Fish")
+      clickOn("#transactionTypeCombo", "All Types")
+      verifyThat("#transactionTypeCombo", hasComboText("All Types"))
+      verifyThat("#transactionCodeField", hasText(""))
+      verifyThat("#transactionCategoryCombo", hasComboText("All Categories"))
+    }
+  }
+
 }
