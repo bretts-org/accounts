@@ -1,5 +1,7 @@
 package accounts.core
 
+import java.io.File
+
 import _root_.cats.MonadCombine
 import _root_.cats.data.OneAnd
 
@@ -13,6 +15,11 @@ package object util {
   type NonEmptySeq[A] = OneAnd[Seq, A]
   def NonEmptySeq[A](head: A, tail: A*): NonEmptySeq[A] = OneAnd(head, tail)
   def NonEmptySeq[A](head: A, tail: Iterable[A]): NonEmptySeq[A] = OneAnd(head, tail.toSeq)
+
+  implicit class StringOps(s: String) {
+    def addPathSuffix(s1: String): String = s + File.separator + s1
+    def /(s1: String): String = addPathSuffix(s1)
+  }
 
   implicit class TraversableOps[A](s: Seq[A]) {
 
