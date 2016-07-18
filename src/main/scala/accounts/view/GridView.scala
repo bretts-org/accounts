@@ -5,6 +5,7 @@ import java.time.LocalDate
 import accounts.core.view.{CellFactory, View}
 import accounts.record.{AccountType, IncomeType, TransactionType}
 import accounts.viewmodel.{GridViewModel, RecordViewModel}
+import org.controlsfx.control.table.TableFilter
 
 import scalafx.geometry.Pos
 import scalafx.scene.control._
@@ -94,6 +95,8 @@ class GridView(vm: GridViewModel) extends View {
       }
       maxWidth = 300 * ColumnScaleFactor
     }
+
+    TableFilter.forTableView(delegate).apply()
   }
 
 }
