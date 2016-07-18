@@ -13,9 +13,15 @@ object Native {
   private val BaseVersionWithCommitRegex = "([0-9\\.]+)-([a-z0-9]+)(?:-SNAPSHOT)?".r
   private val GitTagRegex = "([0-9\\.]+)(?:-SNAPSHOT)?".r
 
-  lazy val plugins = Seq(JavaAppPackaging, WindowsPlugin, JDKPackagerPlugin)
+  private def os = sys.props("os.name").split(" ").head.toLowerCase
 
-  lazy val settings = sys.props("os.name").split(" ").head.toLowerCase match {
+  lazy val plugins = os match {
+    case "windows" => Seq(JavaAppPackaging, WindowsPlugin)
+    case "mac" => Seq(JDKPackagerPlugin)
+    case _ => Seq()
+  }
+
+  lazy val settings = os match {
     case "windows" => Seq(
       version in Windows := {
         // strip off any non-numeric parts when building the msi package, since WiX requires
