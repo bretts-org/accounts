@@ -21,6 +21,7 @@ class GridView(vm: GridViewModel) extends View {
 
   val content = new TableView[RecordViewModel](vm.records) {
     columnResizePolicy = TableView.ConstrainedResizePolicy
+    vm.records.comparator <== comparator
 
     columns += new TableColumn[RecordViewModel, LocalDate] {
       text = "Date"

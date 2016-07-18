@@ -7,6 +7,7 @@ import scala.collection.mutable
 import scala.language.implicitConversions
 import scalafx.beans.property.{BooleanProperty, ObjectProperty, Property}
 import scalafx.collections.ObservableBuffer
+import scalafx.collections.transformation.SortedBuffer
 
 object ViewModel extends StrictLogging {
 
@@ -93,6 +94,12 @@ object ViewModel extends StrictLogging {
   object CalculatedBuffer {
     def apply[A](calculation: => Seq[A])(implicit vmState: VmState): ObservableBuffer[A] = {
       val b = ObservableBuffer(calculation)
+      vmState.calculations += BufferCalculation(b, () => calculation)
+      b
+    }
+
+    def sorted[A](calculation: => Seq[A])(implicit vmState: VmState): SortedBuffer[A] = {
+      val b =  new SortedBuffer(ObservableBuffer(calculation))
       vmState.calculations += BufferCalculation(b, () => calculation)
       b
     }
