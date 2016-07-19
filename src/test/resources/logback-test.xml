@@ -1,10 +1,11 @@
 <configuration>
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>%msg%n</pattern>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd'T'HH:mm:ss.SSSZ} [%thread] %-5level %msg &lt;%logger{36}&gt;%n</pattern>
         </encoder>
     </appender>
-    <root level="OFF">
-        <appender-ref ref="CONSOLE"/>
+
+    <root level="ERROR">
+        <appender-ref ref="CONSOLE" />
     </root>
 </configuration>
