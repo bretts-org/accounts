@@ -1,5 +1,7 @@
 package accounts.test.view
 
+import java.util.concurrent.atomic.AtomicBoolean
+
 import accounts.test.view.matchers.ViewMatchers
 import com.typesafe.scalalogging.StrictLogging
 import io.scalatestfx.framework.scalatest.JFXAppFixture
@@ -13,17 +15,24 @@ trait Fixture {
   def root: Parent
 }
 
+object ViewTest extends StrictLogging {
+  private val initialised = new AtomicBoolean(false)
+
+  def init(): Unit = if (initialised.compareAndSet(false, true)) {
+    Thread.setDefaultUncaughtExceptionHandler { (t, e) =>
+      logger.warn(s"Uncaught exception in thread '$t':", e)
+    }
+  }
+}
+
 trait ViewTest[A <: Fixture]
   extends WordSpec
   with ViewRobot
   with JFXAppFixture
   with ViewMatchers
-  with TypeCheckedTripleEquals
-  with StrictLogging {
+  with TypeCheckedTripleEquals {
 
-  Thread.setDefaultUncaughtExceptionHandler { (t, e) =>
-    logger.error(s"Uncaught exception in thread '$t':", e)
-  }
+  ViewTest.init()
 
   // Capture the root node, otherwise it may be garbage collected
   // and cause test failures
