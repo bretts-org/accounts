@@ -99,9 +99,7 @@ object ViewModel extends StrictLogging {
     }
 
     def sorted[A](calculation: => Seq[A])(implicit vmState: VmState): SortedBuffer[A] = {
-      val b =  new SortedBuffer(ObservableBuffer(calculation))
-      vmState.calculations += BufferCalculation(b, () => calculation)
-      b
+      new SortedBuffer(apply(calculation))
     }
   }
 
