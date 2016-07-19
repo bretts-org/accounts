@@ -27,7 +27,7 @@ object ViewModel extends StrictLogging {
   case class BufferCalculation[A](buffer: ObservableBuffer[A], calculation: () => Seq[A])
   extends Calculation {
     def refresh(): Unit = {
-      buffer.delegate.setAll(calculation().asJava)
+      buffer.setAll(calculation().asJava)
     }
   }
 
