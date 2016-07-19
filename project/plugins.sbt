@@ -4,8 +4,9 @@ resolvers += "Typesafe Repository" at "https://repo.typesafe.com/typesafe/releas
 
 // upgrade sbt-git's jgit dependency to avoid logged IOExceptions in windows (and
 // avoid an eviction warning when we do so)
-libraryDependencies += "org.eclipse.jgit" % "org.eclipse.jgit" % "4.4.0.201606070830-r"
-evictionWarningOptions in update := EvictionWarningOptions.default.withWarnTransitiveEvictions(false).withWarnDirectEvictions(false)
+libraryDependencies += "org.eclipse.jgit" % "org.eclipse.jgit" % "4.4.1.201607150455-r"
+evictionWarningOptions in update :=
+  EvictionWarningOptions.default.withWarnTransitiveEvictions(false).withWarnDirectEvictions(false)
 
 addSbtPlugin("com.typesafe.sbt" % "sbt-git" % "0.8.5")
 addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.1.1")
