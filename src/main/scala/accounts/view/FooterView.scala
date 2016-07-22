@@ -44,6 +44,7 @@ class FooterView(vm: TotalsViewModel) extends View {
           text = "Credit:"
         },
         new TextField {
+          id = "periodCreditTotal"
           alignment = Pos.CenterRight
           editable = false
           textFormatter = new TextFormatter(StringConverter.toStringConverter[BigDecimal](
@@ -63,6 +64,7 @@ class FooterView(vm: TotalsViewModel) extends View {
           text = "Debit:"
         },
         new TextField {
+          id = "periodDebitTotal"
           alignment = Pos.CenterRight
           editable = false
           textFormatter = new TextFormatter(StringConverter.toStringConverter[BigDecimal](
@@ -87,6 +89,7 @@ class FooterView(vm: TotalsViewModel) extends View {
           text = "Credit:"
         },
         new TextField {
+          id = "broughtForwardCreditTotal"
           alignment = Pos.CenterRight
           editable = false
           textFormatter = new TextFormatter(StringConverter.toStringConverter[BigDecimal](
@@ -106,6 +109,7 @@ class FooterView(vm: TotalsViewModel) extends View {
           text = "Debit:"
         },
         new TextField {
+          id = "broughtForwardDebitTotal"
           alignment = Pos.CenterRight
           editable = false
           textFormatter = new TextFormatter(StringConverter.toStringConverter[BigDecimal](
@@ -130,6 +134,7 @@ class FooterView(vm: TotalsViewModel) extends View {
           text = "Credit:"
         },
         new TextField {
+          id = "yearToDateCreditTotal"
           alignment = Pos.CenterRight
           editable = false
           textFormatter = new TextFormatter(StringConverter.toStringConverter[BigDecimal](
@@ -149,6 +154,7 @@ class FooterView(vm: TotalsViewModel) extends View {
           text = "Debit:"
         },
         new TextField {
+          id = "yearToDateDebitTotal"
           alignment = Pos.CenterRight
           editable = false
           textFormatter = new TextFormatter(StringConverter.toStringConverter[BigDecimal](
