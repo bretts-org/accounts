@@ -19,8 +19,13 @@ class GridModel(recordRepository: RecordRepository, filters: FiltersModel) {
     all = recordRepository.all
   }
 
-  def save(r: Record): Unit = {
-    recordRepository.save(r)
+  def add(r: Record): Unit = {
+    recordRepository.add(r)
+    reload()
+  }
+
+  def delete(r: Record): Unit = {
+    recordRepository.delete(r)
     reload()
   }
 

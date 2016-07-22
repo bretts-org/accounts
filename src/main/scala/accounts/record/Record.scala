@@ -1,8 +1,10 @@
 package accounts.record
 
 import java.time.LocalDate
+import java.util.UUID
 
 sealed trait Record {
+  val id: UUID = UUID.randomUUID
   def date: LocalDate
   def description: String
   def debit: BigDecimal

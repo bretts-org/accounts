@@ -11,7 +11,6 @@ import scalafx.scene.control._
 import scalafx.scene.layout.{GridPane, HBox}
 import scalafx.stage.Stage
 import scalafx.util.StringConverter
-
 import AddRecordView._
 
 object AddRecordView {
@@ -23,6 +22,7 @@ class AddRecordView(vm: AddRecordViewModel) extends View {
   val button = new Button {
     id = "addTransactionButton"
     text = "Add Transaction"
+    maxWidth = Double.MaxValue
     onAction = handle {
       vm.reset()
       window.show()

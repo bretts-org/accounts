@@ -3,13 +3,15 @@ package accounts.model
 
 import accounts.record.AccountType.Hotel
 import accounts.record.IncomeType.Card
-import accounts.record.{Record, Transaction}
+import accounts.record.Transaction
 import accounts.record.TransactionType._
 import accounts.record.repository.RecordRepositoryStub
+import accounts.record.repository.file.{Add, Delete, Delta}
 import accounts.test.util.TestUtils._
 import org.scalactic.TypeCheckedTripleEquals
 import org.scalatest.{Matchers, WordSpec}
 
+import scala.collection.mutable
 import scala.language.reflectiveCalls
 
 class GridModelTest extends WordSpec with Matchers with TypeCheckedTripleEquals {
@@ -46,17 +48,31 @@ class GridModelTest extends WordSpec with Matchers with TypeCheckedTripleEquals 
       assert(f.model.records === onlyHotel)
     }
 
-    "save records to the repository" in {
+    "add records to the repository" in {
       val f = fixture
-      f.model.save(newTrans)
-      assert(f.records.saved === Seq[Record](newTrans))
+      f.model.add(newTrans)
+      assert(f.records.deltas === mutable.Buffer[Delta](Add(newTrans)))
     }
 
-    "update from the repository on save" in {
+    "update from the repository on add" in {
       val f = fixture
       f.records.loaded.remove(3)
-      f.model.save(newTrans)
+      f.model.add(newTrans)
       assert(f.model.records === onlyHotel.patch(3, Seq(), 1) :+ newTrans)
+    }
+
+    "delete records from the repository" in {
+      val f = fixture
+      val deleted = all(2)
+      f.model.delete(deleted)
+      assert(f.records.deltas === mutable.Buffer[Delta](Delete(deleted)))
+    }
+
+    "update from the repository on delete" in {
+      val f = fixture
+      f.records.loaded.remove(3)
+      f.model.delete(all(2))
+      assert(f.model.records === onlyHotel.patch(2, Seq(), 2))
     }
 
   }

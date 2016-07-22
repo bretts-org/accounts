@@ -4,15 +4,16 @@ import java.time.Month
 
 import accounts.core.view.View
 import accounts.record.{AccountType, TransactionCategory, TransactionType}
-import accounts.viewmodel.FiltersViewModel
+import accounts.viewmodel.{FiltersViewModel, GridViewModel}
 
 import scalafx.Includes._
 import scalafx.geometry.{Insets, Orientation, Pos}
+import scalafx.scene.control.Alert.AlertType
 import scalafx.scene.control.{TextFormatter, _}
 import scalafx.scene.layout.{GridPane, HBox, Priority}
 import scalafx.util.StringConverter
 
-class HeaderView(filters: FiltersViewModel, addRecord: AddRecordView)
+class HeaderView(filters: FiltersViewModel, grid: GridViewModel, addRecord: AddRecordView)
   extends View {
 
   val transactionCodeField = new TextField {
@@ -181,5 +182,26 @@ class HeaderView(filters: FiltersViewModel, addRecord: AddRecordView)
     }, columnIndex = 6, rowIndex = 0, colspan = 2, rowspan = 1)
 
     add(addRecord.button, columnIndex = 6, rowIndex = 1)
+
+    add(new Button {
+      id = "deleteTransactionButton"
+      text = "Delete Transaction"
+      maxWidth = Double.MaxValue
+      disable <== grid.selectedRecord.isEmpty
+
+      onAction = handle {
+        grid.selectedRecord().foreach { record =>
+          val alert = new Alert(AlertType.Confirmation) {
+            title = "Confirm Deletion"
+            headerText = s"Reference: ${record.reference()}\nDescription: ${record.description()}"
+            contentText = "Delete this record?"
+          }
+          alert.showAndWait() match {
+            case Some(ButtonType.OK) => grid.delete(record)
+            case _ => // do nothing
+          }
+        }
+      }
+    }, columnIndex = 6, rowIndex = 2)
   }
 }

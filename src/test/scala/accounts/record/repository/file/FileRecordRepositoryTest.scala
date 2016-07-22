@@ -38,7 +38,7 @@ class FileRecordRepositoryTest extends WordSpec with TypeCheckedTripleEquals {
       val storeRepo = new FileRecordRepository(storeFile)
 
       "save files such that they can be reloaded" in {
-        repo.all.foreach(storeRepo.save)
+        repo.all.foreach(storeRepo.add)
 
         val loadRepo = new FileRecordRepository(storeFile)
         assert(loadRepo.all === expected)

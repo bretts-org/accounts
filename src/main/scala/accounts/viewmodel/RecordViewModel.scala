@@ -4,7 +4,7 @@ import accounts.record.{Record, Transaction}
 
 import scalafx.beans.property.ObjectProperty
 
-class RecordViewModel(record: Record) {
+class RecordViewModel(private[viewmodel] val record: Record) {
 
   private def transactionField[A](f: Transaction => A): Option[A] = record match {
     case t: Transaction => Some(f(t))

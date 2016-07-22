@@ -5,6 +5,7 @@ import java.time.LocalDate
 import accounts.model.{AddRecordModel, FiltersModel, GridModel}
 import accounts.record._
 import accounts.record.repository.RecordRepositoryStub
+import accounts.record.repository.file.{Add, Delta}
 import accounts.test.view.{Fixture, ViewTest}
 import accounts.viewmodel.AddRecordViewModel
 import org.testfx.api.FxAssert._
@@ -345,7 +346,7 @@ class AddRecordViewTest extends ViewTest[AddRecordViewTestFixture] {
         populateCoreFields()
         enterText("#addRecordCreditField", "12.34")
         clickOn("#addRecordOkButton")
-        assert(fixture.repo.saved === mutable.Buffer[Record](expectedTransaction))
+        assert(fixture.repo.deltas === mutable.Buffer[Delta](Add(expectedTransaction)))
         assert(listWindows.size === 1)
         openWindow()
         verifyInitialWindowState(8)
@@ -360,7 +361,7 @@ class AddRecordViewTest extends ViewTest[AddRecordViewTestFixture] {
         populateCoreFields()
         enterText("#addRecordCreditField", "12.34")
         clickOn("#addRecordNextButton")
-        assert(fixture.repo.saved === mutable.Buffer[Record](expectedTransaction))
+        assert(fixture.repo.deltas === mutable.Buffer[Delta](Add(expectedTransaction)))
         verifyInitialWindowState(8)
       } finally {
         closeWindow()
@@ -373,7 +374,7 @@ class AddRecordViewTest extends ViewTest[AddRecordViewTestFixture] {
         populateCoreFields()
         enterText("#addRecordCreditField", "12.34")
         clickOn("#addRecordCancelButton")
-        assert(fixture.repo.saved === mutable.Buffer[Record]())
+        assert(fixture.repo.deltas === mutable.Buffer[Delta]())
         assert(listWindows.size === 1)
         openWindow()
         verifyInitialWindowState(7)

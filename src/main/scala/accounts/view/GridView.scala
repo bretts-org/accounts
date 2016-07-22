@@ -7,6 +7,7 @@ import accounts.record.{AccountType, IncomeType, TransactionType}
 import accounts.viewmodel.{GridViewModel, RecordViewModel}
 import org.controlsfx.control.table.TableFilter
 
+import scalafx.Includes._
 import scalafx.geometry.Pos
 import scalafx.scene.control._
 import scalafx.scene.control.TableColumn._
@@ -23,6 +24,7 @@ class GridView(vm: GridViewModel) extends View {
   val content = new TableView[RecordViewModel](vm.records) {
     columnResizePolicy = TableView.ConstrainedResizePolicy
     vm.records.comparator <== comparator
+    vm.selectedRecord <== selectionModel().selectedItem
 
     columns += new TableColumn[RecordViewModel, LocalDate] {
       text = "Date"

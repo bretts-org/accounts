@@ -4,6 +4,7 @@ import accounts.record.AccountType.{Hotel, House}
 import accounts.record.IncomeType.{Cash, Cheque, DirectDebit}
 import accounts.record.TransactionCategory._
 import accounts.record.TransactionType._
+import accounts.record.repository.file.{Add, Delete, Delta}
 import accounts.record.{OpeningBalance, Record, Transaction}
 import accounts.test.util.TestUtils._
 
@@ -22,11 +23,17 @@ object RecordRepositoryStub {
 }
 
 class RecordRepositoryStub extends RecordRepository {
-  override def all: Seq[Record] = loaded ++ saved
+
+  override def all: Seq[Record] = deltas.foldLeft(loaded)((accum, d) => d match {
+    case Add(r) => accum :+ r
+    case Delete(r) => accum.filter(_.id != r.id)
+  })
 
   val loaded: mutable.Buffer[Record] = RecordRepositoryStub.all.toBuffer
 
-  val saved: mutable.Buffer[Record] = mutable.Buffer()
+  val deltas: mutable.Buffer[Delta] = mutable.Buffer()
 
-  override def save(r: Record): Unit = { saved += r }
+  override def add(r: Record): Unit = { deltas += Add(r) }
+
+  override def delete(r: Record): Unit = { deltas += Delete(r) }
 }

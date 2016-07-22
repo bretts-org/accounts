@@ -20,7 +20,7 @@ object ShellView {
 class ShellView(vm: ShellViewModel) extends View {
 
   val addRecord = new AddRecordView(vm.addRecord)
-  val header = new HeaderView(vm.filters, addRecord)
+  val header = new HeaderView(vm.filters, vm.grid, addRecord)
 
   val grid = new GridView(vm.grid)
   val pnl = new PnlView(vm.pnl)

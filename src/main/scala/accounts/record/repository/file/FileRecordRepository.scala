@@ -10,9 +10,16 @@ import FileUtils._
 import scala.collection.mutable
 import scala.util.control.NonFatal
 
+sealed trait Delta
+case class Add(r: Record) extends Delta
+case class Delete(r: Record) extends Delta
+
 class FileRecordRepository(file: java.io.File) extends RecordRepository with StrictLogging with TypeCheckedTripleEquals {
 
-  override def all: Seq[Record] = loaded ++ saved
+  override def all: Seq[Record] = deltas.foldLeft(loaded)((accum, d) => d match {
+    case Add(r) => accum :+ r
+    case Delete(r) => accum.filter(_.id != r.id)
+  })
 
   private val loaded: Seq[Record] = {
     val reader = CSVReader.open(file)
@@ -29,9 +36,9 @@ class FileRecordRepository(file: java.io.File) extends RecordRepository with Str
     }
   }
 
-  private val saved: mutable.Buffer[Record] = mutable.Buffer()
+  private val deltas: mutable.Buffer[Delta] = mutable.Buffer()
 
-  override def save(r: Record): Unit = {
+  override def add(r: Record): Unit = {
     val writer = CSVWriter.open(file, append = true)
     try {
       val row = format(r)
@@ -40,7 +47,19 @@ class FileRecordRepository(file: java.io.File) extends RecordRepository with Str
     } finally {
       writer.close()
     }
-    saved += r
+    deltas += Add(r)
+  }
+
+  override def delete(r: Record): Unit = {
+    val writer = CSVWriter.open(file)
+    try {
+      val updated = all.filter(_.id != r.id)
+      logger.debug(s"Deleting: $r")
+      updated.foreach(r => writer.writeRow(format(r)))
+    } finally {
+      writer.close()
+    }
+    deltas += Delete(r)
   }
 
   private def parse(fields: Seq[String]): Record = try {

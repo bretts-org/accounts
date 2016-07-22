@@ -58,6 +58,6 @@ class AddRecordModel(grid: GridModel, filters: FiltersModel) {
     accountType = defaultAccountType
   }
 
-  def save(): Unit = transaction.foreach(grid.save)
+  def save(): Unit = transaction.foreach(grid.add)
 
 }
