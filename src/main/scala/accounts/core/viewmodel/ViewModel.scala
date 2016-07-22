@@ -36,15 +36,10 @@ object ViewModel extends StrictLogging {
       val p = ObjectProperty(value)
       p.onChange {
         if (!vmState.updating) {
-          logger.debug(s"Property.onUiChange: $p")
-          try {
-            vmState.updating = true
-            vmState.refresh()
-          } finally {
-            vmState.updating = false
-          }
+          logger.debug(s"Property.onChange: $p")
+          vmState.update {}
         } else {
-          logger.trace(s"Skipping Property.onUiChange: $p")
+          logger.trace(s"Skipping Property.onChange: $p")
         }
       }
       p
@@ -67,14 +62,7 @@ object ViewModel extends StrictLogging {
 
     private def handleChange[A, B](p: Property[A, B], from: A => Unit)(implicit vmState: VmState): Unit = {
       logger.trace(s"Binding.onChange: $p (updating: ${vmState.updating})")
-      val updating = vmState.updating
-      try {
-        vmState.updating = true
-        from(p())
-        if (!updating) vmState.refresh()
-      } finally {
-        if (!updating) vmState.updating = false
-      }
+      vmState.update(from(p()))
     }
   }
 
@@ -99,7 +87,8 @@ object ViewModel extends StrictLogging {
   }
 
   class VmState {
-    var updating: Boolean = false
+    private var _updating: Boolean = false
+    def updating: Boolean = _updating
     val calculations = mutable.Buffer[Calculation]()
 
     def refresh(): Unit = {
@@ -110,19 +99,24 @@ object ViewModel extends StrictLogging {
       }
     }
 
+    def update(f: => Unit) = {
+      val previouslyUpdating = updating
+      try {
+        _updating = true
+        f
+        if (!previouslyUpdating) refresh()
+      } finally {
+        _updating = previouslyUpdating
+      }
+    }
+
   }
 
   class RichProperty[A](p: ObjectProperty[A]) {
     def onUiChange(f: A => Unit)(implicit vmState: VmState): Unit = p.onChange { (_, _, value) =>
       if (!vmState.updating) {
         logger.trace(s"RichProperty.onUiChange: $p")
-        try {
-          vmState.updating = true
-          f(value)
-          vmState.refresh()
-        } finally {
-          vmState.updating = false
-        }
+        vmState.update(f(value))
       } else {
         logger.info(s"Skipping RichProperty.onUiChange: $p")
       }
@@ -140,13 +134,5 @@ object ViewModel extends StrictLogging {
 trait ViewModel {
   implicit protected val vmState = ViewModel.singletonVmState
 
-  protected def update(f: => Unit) = {
-    try {
-      vmState.updating = true
-      f
-      vmState.refresh()
-    } finally {
-      vmState.updating = false
-    }
-  }
+  protected def update(f: => Unit) = vmState.update(f)
 }
