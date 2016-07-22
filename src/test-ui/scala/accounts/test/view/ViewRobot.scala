@@ -22,31 +22,39 @@ trait ViewRobot extends SfxRobot {
     n.isVisible && bounds.minY >= 0 && bounds.maxY < (parentHeight - bounds.getHeight)
   }
 
+  private def findItemInView(comboPopup: NodeQuery, itemText: String) =
+    Option(from(comboPopup).lookup(itemText).query[Node]).filter(isClickable)
+
   private def findItem(
     comboPopup: NodeQuery,
     itemText: String,
     boundaryText: String,
-    scrollDirection: VerticalDirection,
-    remainingCount: Int = 1000
+    scrollDirection: VerticalDirection
+  ): Option[Node] = findItemInView(comboPopup, itemText) orElse {
+    val scrollButtonClass = scrollDirection match {
+      case VerticalDirection.Up => ".decrement-button"
+      case VerticalDirection.Down => ".increment-button"
+      case d => throw new IllegalStateException(s"Unexpected direction: $d")
+    }
+    val scrollButton = from(comboPopup).lookup(scrollButtonClass).query[Node]
+    moveTo(scrollButton)
+    scrollAndFindItem(comboPopup, itemText, boundaryText, 1000)
+  }
+
+  private def scrollAndFindItem(
+    comboPopup: NodeQuery,
+    itemText: String,
+    boundaryText: String,
+    remainingCount: Int
   ): Option[Node] = {
-    // Scroll down until we find the item or hit the bottom
-    Option(from(comboPopup).lookup(itemText).query[Node]).filter(isClickable).orElse {
-      if (remainingCount > 0) {
-        val boundaryItem = Option(from(comboPopup).lookup(boundaryText).query[Node]).filter(isClickable)
-        boundaryItem match {
-          case Some(b) =>
-            None
-          case None =>
-            val scrollButtonClass = scrollDirection match {
-              case VerticalDirection.Up => ".decrement-button"
-              case VerticalDirection.Down => ".increment-button"
-              case d => throw new IllegalStateException(s"Unexpected direction: $d")
-            }
-            clickOn(from(comboPopup).lookup(scrollButtonClass).query[Node])
-            findItem(comboPopup, itemText, boundaryText, scrollDirection, remainingCount - 1)
-        }
-      } else {
-        None
+    findItemInView(comboPopup, itemText) orElse {
+      // Scroll until we find the item, hit the boundary or reach the count limit
+      findItemInView(comboPopup, boundaryText) match {
+        case None if remainingCount > 0 =>
+          (1 to 10).foreach(_ => clickOn())
+          scrollAndFindItem(comboPopup, itemText, boundaryText, remainingCount - 1)
+        case _ =>
+          None
       }
     }
   }
