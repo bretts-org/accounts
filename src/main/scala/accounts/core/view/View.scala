@@ -2,10 +2,11 @@ package accounts.core.view
 
 import java.time.{LocalDate, Month}
 import java.time.format.DateTimeFormatter
+import javafx.beans.{value => jfx}
 
 import scala.language.implicitConversions
 import scalafx.application.Platform
-import scalafx.beans.binding.Bindings
+import scalafx.beans.binding.{Bindings, ObjectBinding}
 import scalafx.beans.property.Property
 import scalafx.beans.value.ObservableValue
 import scalafx.scene.control._
@@ -96,15 +97,31 @@ trait View {
   implicit protected def toFunction[A, B](f: => TableCell[A, B]): TableColumn[A, B] => TableCell[A, B] =
     _ => f
 
+  implicit def asJava(v: ObservableValue[_, Boolean]): jfx.ObservableValue[java.lang.Boolean] =
+    Bindings.createObjectBinding[java.lang.Boolean](() => v.delegate.getValue, v)
+
   implicit class RichBinding[A](p1: Property[_, A])(implicit ev: Null <:< A) {
     def <==>(p2: Property[_, Option[A]]): Unit = {
       NullableToOptionBidirectionalBinding.bind(p1, p2)
     }
 
-    def <==(p2: Property[_, Option[A]]): Unit = {
+    def <==(p2: ObservableValue[_, Option[A]]): Unit = {
       val b = Bindings.createObjectBinding(() => p2.delegate.getValue.orNull, p2)
       p1 <== b
     }
+
+
+    def bind[B](f: A => B) = Bindings.createObjectBinding(() => f(p1.delegate.getValue), p1)
+  }
+
+  implicit class RichOptionBinding[A](p1: Property[_, Option[A]]) {
+    def <==(p2: ObservableValue[_, A]): Unit = {
+      val b = Bindings.createObjectBinding(() => Option(p2.delegate.getValue), p2)
+      p1 <== b
+    }
+
+    def isDefined: ObjectBinding[Boolean] = Bindings.createObjectBinding(() => p1.delegate.getValue.isDefined, p1)
+    def isEmpty: ObjectBinding[Boolean] = Bindings.createObjectBinding(() => p1.delegate.getValue.isEmpty, p1)
   }
 
 }

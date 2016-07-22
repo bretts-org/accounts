@@ -26,7 +26,7 @@ class AddRecordViewModel(model: AddRecordModel) extends ViewModel {
     model.transactionType.map(tt => Tooltip(s"Code: ${tt.value}").delegate)
   }
 
-  val incomplete = CalculatedProperty.boolean(!model.complete)
+  val incomplete = CalculatedProperty(!model.complete)
 
   def save(): Unit = update {
     model.save()

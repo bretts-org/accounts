@@ -84,11 +84,6 @@ object ViewModel extends StrictLogging {
       vmState.calculations += PropertyCalculation(p, () => calculation)
       p
     }
-    def boolean(calculation: => Boolean)(implicit vmState: VmState): BooleanProperty = {
-      val p = BooleanProperty(calculation)
-      vmState.calculations += PropertyCalculation(p, () => calculation)
-      p
-    }
   }
 
   object CalculatedBuffer {
