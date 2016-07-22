@@ -2,15 +2,22 @@ package accounts.core
 
 import java.io.File
 
-import _root_.cats.MonadCombine
-import _root_.cats.data.OneAnd
+import cats.MonadCombine
+import cats.data.OneAnd
 
 import scala.collection.TraversableOnce
 import scala.language.higherKinds
 
 package object util {
 
-  val seq = accounts.core.cats.std.seq
+  object seq {
+    implicit val seqMonadCombine = new MonadCombine[Seq] {
+      override def empty[A]: Seq[A] = Seq()
+      override def pure[A](x: A): Seq[A] = Seq(x)
+      override def flatMap[A, B](fa: Seq[A])(f: (A) => Seq[B]): Seq[B] = fa.flatMap(f)
+      override def combineK[A](x: Seq[A], y: Seq[A]): Seq[A] = x ++ y
+    }
+  }
 
   type NonEmptySeq[A] = OneAnd[Seq, A]
   def NonEmptySeq[A](head: A, tail: A*): NonEmptySeq[A] = OneAnd(head, tail)
