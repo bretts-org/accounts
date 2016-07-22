@@ -9,9 +9,9 @@ import sbt.Keys._
 
 object Native {
 
-  private val GitDescribeRegex = "([0-9\\.]+)-([0-9]+)-([a-z0-9]+)(?:-SNAPSHOT)?".r
-  private val BaseVersionWithCommitRegex = "([0-9\\.]+)-([a-z0-9]+)(?:-SNAPSHOT)?".r
-  private val GitTagRegex = "([0-9\\.]+)(?:-SNAPSHOT)?".r
+  private val GitDescribeRegex = """([0-9\.]+)-([0-9]+)-([a-z0-9]+)(?:-SNAPSHOT)?""".r
+  private val BaseVersionWithCommitRegex = """([0-9\.]+)-([a-z0-9]+)(?:-SNAPSHOT)?""".r
+  private val GitTagRegex = """([0-9\.]+)(?:-SNAPSHOT)?""".r
 
   private def os = sys.props("os.name").split(" ").head.toLowerCase
 

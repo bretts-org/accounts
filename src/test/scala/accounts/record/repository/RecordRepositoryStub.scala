@@ -7,6 +7,7 @@ import accounts.record.TransactionType._
 import accounts.record.repository.file.{Add, Delete, Delta}
 import accounts.record.{OpeningBalance, Record, Transaction}
 import accounts.test.util.TestUtils._
+import org.scalactic.TypeCheckedTripleEquals
 
 import scala.collection.mutable
 
@@ -22,11 +23,11 @@ object RecordRepositoryStub {
   )
 }
 
-class RecordRepositoryStub extends RecordRepository {
+class RecordRepositoryStub extends RecordRepository with TypeCheckedTripleEquals {
 
   override def all: Seq[Record] = deltas.foldLeft(loaded)((accum, d) => d match {
     case Add(r) => accum :+ r
-    case Delete(r) => accum.filter(_.id != r.id)
+    case Delete(r) => accum.filter(_.id !== r.id)
   })
 
   val loaded: mutable.Buffer[Record] = RecordRepositoryStub.all.toBuffer

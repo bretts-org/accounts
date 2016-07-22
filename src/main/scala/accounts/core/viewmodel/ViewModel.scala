@@ -93,7 +93,7 @@ object ViewModel extends StrictLogging {
       b
     }
 
-    def sorted[A](calculation: => Seq[A], ordering: Ordering[_ >: A])(implicit vmState: VmState): SortedBuffer[A] = {
+    def sorted[A](calculation: => Seq[A])(ordering: Ordering[_ >: A])(implicit vmState: VmState): SortedBuffer[A] = {
       new SortedBuffer[A](apply(calculation), ordering)
     }
   }

@@ -18,7 +18,7 @@ class FileRecordRepository(file: java.io.File) extends RecordRepository with Str
 
   override def all: Seq[Record] = deltas.foldLeft(loaded)((accum, d) => d match {
     case Add(r) => accum :+ r
-    case Delete(r) => accum.filter(_.id != r.id)
+    case Delete(r) => accum.filter(_.id !== r.id)
   })
 
   private val loaded: Seq[Record] = {
@@ -53,7 +53,7 @@ class FileRecordRepository(file: java.io.File) extends RecordRepository with Str
   override def delete(r: Record): Unit = {
     val writer = CSVWriter.open(file)
     try {
-      val updated = all.filter(_.id != r.id)
+      val updated = all.filter(_.id !== r.id)
       logger.debug(s"Deleting: $r")
       updated.foreach(r => writer.writeRow(format(r)))
     } finally {
