@@ -12,7 +12,7 @@ object Dependencies {
     "com.typesafe.scala-logging" %% "scala-logging" % "3.4.0",
     "ch.qos.logback" % "logback-classic" % "1.1.7",
 
-    "com.beachape" %% "enumeratum" % "1.4.5",
+    "com.beachape" %% "enumeratum" % "1.4.8",
     "com.github.tototoshi" %% "scala-csv" % "1.3.3",
     "org.scalafx" %% "scalafx" % "8.0.92-R10",
     "org.scalactic" %% "scalactic" % "3.0.0-RC4",
