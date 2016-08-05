@@ -1,10 +1,12 @@
 package accounts.core.view
 
-import java.time.{LocalDate, Month}
+import java.time.{LocalDate, Month, MonthDay, Year}
 import java.time.format.DateTimeFormatter
+import java.time.temporal.TemporalAccessor
 import javafx.beans.{value => jfx}
 
 import scala.language.implicitConversions
+import scala.util.{Success, Try}
 import scalafx.application.Platform
 import scalafx.beans.binding.{Bindings, ObjectBinding}
 import scalafx.beans.property.Property
@@ -14,11 +16,25 @@ import scalafx.util.StringConverter
 
 object View {
   private val dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+  private val dateTimeParsers = Stream[(String, TemporalAccessor => LocalDate)](
+    ("d-M-yyyy", LocalDate.from),
+    ("d-M-yy", LocalDate.from),
+    ("d-M", MonthDay.from(_).atYear(Year.now.getValue))
+  ).map {
+    case (p, f) => (DateTimeFormatter.ofPattern(p), f)
+  }
+
   private val numericMonthRegex = "([0-9]{1,2})".r
   private val positiveTwoDigitRegex = """\+?[0-9]+(\.[0-9]{0,2})?""".r
 
-  def formatDate(ld: LocalDate): String = dateFormatter.format(ld)
-  def toDate(s: String): LocalDate = dateFormatter.parse(s, LocalDate.from(_))
+  def formatDate(d: LocalDate): String = dateFormatter.format(d)
+  def toDate(s: String): LocalDate = {
+    dateTimeParsers.map { case (df, f) =>
+      Try(df.parse(s, f(_)))
+    }.collectFirst {
+      case Success(d) => d
+    }.getOrElse(throw new IllegalArgumentException(s"Failed to parse: $s"))
+  }
 
   def formatDecimal(b: BigDecimal): String = f"$b%.2f"
 

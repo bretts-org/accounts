@@ -1,6 +1,6 @@
 package accounts.view
 
-import java.time.LocalDate
+import java.time.{LocalDate, Year}
 
 import accounts.model.{AddRecordModel, FiltersModel, GridModel}
 import accounts.record._
@@ -91,9 +91,29 @@ class AddRecordViewTest extends ViewTest[AddRecordViewTestFixture] {
   }
 
   "Date field" should {
-    "accept a valid date" in recordWindow {
+    "accept a dd-MM-yyyy date" in recordWindow {
       enterText("#addRecordDatePicker", "14-08-2015")
       verifyThat("#addRecordDatePicker", hasDateText("14-08-2015"))
+    }
+    "accept a d-M-yyyy date" in recordWindow {
+      enterText("#addRecordDatePicker", "14-8-2015")
+      verifyThat("#addRecordDatePicker", hasDateText("14-08-2015"))
+    }
+    "accept a dd-MM-yy date" in recordWindow {
+      enterText("#addRecordDatePicker", "14-08-15")
+      verifyThat("#addRecordDatePicker", hasDateText("14-08-2015"))
+    }
+    "accept a d-M-yy date" in recordWindow {
+      enterText("#addRecordDatePicker", "14-8-15")
+      verifyThat("#addRecordDatePicker", hasDateText("14-08-2015"))
+    }
+    "accept a dd-MM date" in recordWindow {
+      enterText("#addRecordDatePicker", "14-08")
+      verifyThat("#addRecordDatePicker", hasDateText(s"14-08-${Year.now.getValue}"))
+    }
+    "accept a d-M date" in recordWindow {
+      enterText("#addRecordDatePicker", "14-8")
+      verifyThat("#addRecordDatePicker", hasDateText(s"14-08-${Year.now.getValue}"))
     }
     "accept an empty string" in recordWindow {
       enterText("#addRecordDatePicker", "14-08-2015")
