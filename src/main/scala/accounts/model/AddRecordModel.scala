@@ -7,12 +7,10 @@ import accounts.record.{AccountType, IncomeType, Transaction, TransactionType}
 
 class AddRecordModel(grid: GridModel, filters: FiltersModel) {
 
-  private def defaultDate = Some(LocalDate.now)
-
   private def defaultReference = grid.all.map(_.reference).maxOption.map(_ + 1)
   private def defaultAccountType = filters.accountTypeFilter
 
-  var date: Option[LocalDate] = defaultDate
+  var date: Option[LocalDate] = None
   var description: Option[String] = None
   var transactionType: Option[TransactionType] = None
   var debit: Option[BigDecimal] = None
@@ -33,7 +31,6 @@ class AddRecordModel(grid: GridModel, filters: FiltersModel) {
     case _ => None
   }
 
-
   private def transaction = for {
     d <- date
     desc <- description
@@ -48,7 +45,7 @@ class AddRecordModel(grid: GridModel, filters: FiltersModel) {
   def complete: Boolean = transaction.isDefined
 
   def reset(): Unit = {
-    date = defaultDate
+    date = None
     description = None
     transactionType = None
     debit = None

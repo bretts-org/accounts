@@ -54,15 +54,8 @@ class AddRecordViewTest extends ViewTest[AddRecordViewTestFixture] {
     }
   }
 
-  // deliberately construct the string mechanically rather than using a formatter,
-  // to test for the correct formatting
-  def currentDateString = {
-    val now = LocalDate.now
-    f"${now.getDayOfMonth}%02d-${now.getMonthValue}%02d-${now.getYear}"
-  }
-
   private def verifyInitialWindowState(expectedReference: Int): Unit = {
-    verifyThat("#addRecordDatePicker", hasDateText(currentDateString))
+    verifyThat("#addRecordDatePicker", hasDateText(""))
     verifyThat("#addRecordReferenceField", hasText(expectedReference.toString))
     verifyThat("#addRecordTransactionTypeCombo", hasComboText(""))
     verifyThat("#addRecordIncomeTypeCombo", hasComboText(""))
@@ -99,15 +92,16 @@ class AddRecordViewTest extends ViewTest[AddRecordViewTestFixture] {
 
   "Date field" should {
     "accept a valid date" in recordWindow {
-      enterText("#addRecordDatePicker", "14-08-2015", 10)
+      enterText("#addRecordDatePicker", "14-08-2015")
       verifyThat("#addRecordDatePicker", hasDateText("14-08-2015"))
     }
     "accept an empty string" in recordWindow {
+      enterText("#addRecordDatePicker", "14-08-2015")
       enterText("#addRecordDatePicker", "", 10)
       verifyThat("#addRecordDatePicker", hasDateText(""))
     }
     "ignore an invalid entry" in recordWindow {
-      enterText("#addRecordDatePicker", "23-04-2016", 10)
+      enterText("#addRecordDatePicker", "23-04-2016")
       enterText("#addRecordDatePicker", "wibble", 10)
       verifyThat("#addRecordDatePicker", hasDateText("23-04-2016"))
     }
@@ -293,6 +287,7 @@ class AddRecordViewTest extends ViewTest[AddRecordViewTestFixture] {
   "Buttons" should {
 
     def populateCoreFields() = {
+      enterText("#addRecordDatePicker", "14-08-2015")
       enterText("#addRecordTransactionTypeCombo", "113")
       enterText("#addRecordIncomeTypeCombo", "2")
       enterText("#addRecordDescriptionField", "foo bar")
@@ -330,7 +325,7 @@ class AddRecordViewTest extends ViewTest[AddRecordViewTestFixture] {
     }
 
     val expectedTransaction = Transaction(
-      LocalDate.now,
+      LocalDate.parse("2015-08-14"),
       "foo bar",
       TransactionType.Fish,
       BigDecimal("0"),
