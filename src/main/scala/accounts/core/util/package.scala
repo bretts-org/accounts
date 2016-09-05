@@ -5,6 +5,7 @@ import java.io.File
 import cats.MonadCombine
 import cats.data.OneAnd
 
+import scala.annotation.tailrec
 import scala.collection.TraversableOnce
 import scala.language.higherKinds
 
@@ -16,6 +17,19 @@ package object util {
       override def pure[A](x: A): Seq[A] = Seq(x)
       override def flatMap[A, B](fa: Seq[A])(f: (A) => Seq[B]): Seq[B] = fa.flatMap(f)
       override def combineK[A](x: Seq[A], y: Seq[A]): Seq[A] = x ++ y
+      override def tailRecM[A, B](a: A)(f: A => Seq[Either[A, B]]): Seq[B] = {
+        val buf = Seq.newBuilder[B]
+        @tailrec def go(seqs: Seq[Seq[Either[A, B]]]): Unit = seqs match {
+          case (ab +: abs) +: tail => ab match {
+            case Right(b) => buf += b; go(abs +: tail)
+            case Left(a) => go(f(a) +: abs +: tail)
+          }
+          case Seq() +: tail => go(tail)
+          case Seq() => ()
+        }
+        go(f(a) +: Seq())
+        buf.result
+      }
     }
   }
 
