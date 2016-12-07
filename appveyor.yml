@@ -5,7 +5,7 @@ os: Windows Server 2012
 install:
   - ps: |
       Add-Type -AssemblyName System.IO.Compression.FileSystem
-      if (!(Test-Path -Path "C:\sbt" )) {
+      if (!(Test-Path -Path "C:\sbt\sbt\bin\sbt.bat" )) {
         (new-object System.Net.WebClient).DownloadFile(
           'https://dl.bintray.com/sbt/native-packages/sbt/0.13.11/sbt-0.13.11.zip',
           'C:\sbt-bin.zip'
@@ -48,6 +48,6 @@ deploy:
     appveyor_repo_tag: true
 
 cache:
-  - C:\sbt\
+  - 'C:\sbt\'
   - '%USERPROFILE%\.ivy2\'
   - '%USERPROFILE%\.sbt\'
