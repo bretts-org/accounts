@@ -12,7 +12,7 @@ object Dependencies {
     "com.typesafe.scala-logging" %% "scala-logging" % "3.5.0",
     "ch.qos.logback" % "logback-classic" % "1.1.7",
 
-    "com.beachape" %% "enumeratum" % "1.5.1",
+    "com.beachape" %% "enumeratum" % "1.5.2",
     "com.github.tototoshi" %% "scala-csv" % "1.3.4",
     "org.scalafx" %% "scalafx" % "8.0.102-R11",
     // local version of controlsfx used with TableFilter enhancements
@@ -21,7 +21,7 @@ object Dependencies {
     "org.typelevel" %% "cats" % "0.8.1",
 
     "org.scalatest" %% "scalatest" % "3.0.1" % Test,
-    "org.mockito" % "mockito-core" % "2.2.21"% Test,
+    "org.mockito" % "mockito-core" % "2.2.28"% Test,
 
     // local veresion of scalatestfx used with update to scala 2.12.1
     // code: https://github.com/aebrett/ScalaTestFX/commit/b8ad930f985f0d9a059211481181062b444bda91
