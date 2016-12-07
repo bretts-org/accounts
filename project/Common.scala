@@ -7,7 +7,7 @@ object Common {
     name := "Accounts",
     organization := "org.bretts",
 
-    scalaVersion := "2.11.8",
+    scalaVersion := "2.12.1",
 
     scalacOptions := Seq(
       "-target:jvm-1.8",

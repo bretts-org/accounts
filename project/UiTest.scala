@@ -10,6 +10,8 @@ object UiTest {
 
   lazy val settings = inConfig(UiTest)(Defaults.testSettings) ++ Seq(
     fork in UiTest := true,
+    // lib/ext contains a custom build of Monocle for java 1.8.0_92+
+    // code: https://github.com/aebrett/Monocle/commit/64afcc153dde0cb2d8811578457b312b550f13bf
     javaOptions in UiTest += "-Djava.ext.dirs=" + (baseDirectory.value / "lib" / "ext") + File.pathSeparator + defaultExtDirs,
     javaOptions in UiTest += "-Dtestfx.robot=glass",
     javaOptions in UiTest += "-Dglass.platform=Monocle",
