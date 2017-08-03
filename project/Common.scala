@@ -7,7 +7,7 @@ object Common {
     name := "Accounts",
     organization := "org.bretts",
 
-    scalaVersion := "2.12.1",
+    scalaVersion := "2.12.3",
 
     scalacOptions := Seq(
       "-target:jvm-1.8",
@@ -17,7 +17,8 @@ object Common {
       "-deprecation", "-unchecked", "-feature",
       "-Xlint:_",
       "-Ywarn-adapted-args", "-Ywarn-dead-code", "-Ywarn-inaccessible", "-Ywarn-infer-any",
-      "-Ywarn-nullary-override", "-Ywarn-nullary-unit", "-Ywarn-unused", "-Ywarn-unused-import"
+      // Ignore parameter warnings below, since they give unhelpful warnings
+      "-Ywarn-nullary-override", "-Ywarn-nullary-unit", "-Ywarn-unused:-params,_", "-Ywarn-unused-import"
       // "-Ywarn-numeric-widen", "-Ywarn-value-discard" <-- overly stringent warnings
     ),
 
