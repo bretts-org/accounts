@@ -66,8 +66,8 @@ package object util {
     def groupValues: Map[A, Seq[B]] = groupValues(identity)
 
     def groupValues[C](f: Seq[B] => C): Map[A, C] =
-      s.groupBy { case (k, v) => k }
-       .mapValues(s => f(s.map { case (k, v) => v }))
+      s.groupBy { case (k, _) => k }
+       .mapValues(s => f(s.map { case (_, v) => v }))
   }
 
   implicit class OneAndOps[F[_], A](nonEmpty: OneAnd[F, A]) {

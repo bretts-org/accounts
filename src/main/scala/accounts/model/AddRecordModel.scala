@@ -21,12 +21,12 @@ class AddRecordModel(grid: GridModel, filters: FiltersModel) {
 
   private def validatedDebit = (debit.filter(_ > 0), credit.filter(_ > 0)) match {
     case (Some(d), None) => Some(d)
-    case (None, Some(c)) => Some(BigDecimal(0))
+    case (None, Some(_)) => Some(BigDecimal(0))
     case _ => None
   }
 
   private def validatedCredit = (debit.filter(_ > 0), credit.filter(_ > 0)) match {
-    case (Some(d), None) => Some(BigDecimal(0))
+    case (Some(_), None) => Some(BigDecimal(0))
     case (None, Some(c)) => Some(c)
     case _ => None
   }
