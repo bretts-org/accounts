@@ -32,7 +32,7 @@ test_script:
 
 after_test:
   - codecov
-  - snyk monitor --org=bretts-org
+  - snyk monitor --org=bretts-org --project-name=accounts
 
 artifacts:
   - path: 'target\scala-*\*.jar'
