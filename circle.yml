@@ -3,9 +3,13 @@ dependencies:
     - wget -q https://dl.bintray.com/sbt/debian/sbt-0.13.11.deb
     - sudo dpkg -i sbt-0.13.11.deb
     - java -version
+    - npm install -g snyk
 
   override:
     - cat /dev/null | sbt test:compile
+
+  post:
+    - snyk monitor --org=bretts-org
 
   cache_directories:
     # ~/.ivy2 cached by default
@@ -19,4 +23,5 @@ test:
      - cp target/junit-reports/*.xml $CIRCLE_TEST_REPORTS/junit/
 
 # CODACY_PROJECT_TOKEN specified in web settings
+# SNYK_TOKEN specified in web settings
 # Email notifications disabled in web settings (rely on Appveyor for build emails)

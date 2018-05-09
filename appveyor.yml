@@ -2,10 +2,6 @@ version: '{build}'
 
 os: Windows Server 2012
 
-environment:
-  SNYK_TOKEN:
-    secure: OFojtfz9LdGozEf6o9jStEgx7KbC3ABqLPNyzttByTodDOMd+B8SiKcoa4huzaa7
-
 install:
   - ps: |
       Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -21,7 +17,6 @@ install:
   - cmd: set SBT_OPTS=-XX:MaxPermSize=2g -Xmx4g
   - cmd: set JAVA_OPTS=-XX:MaxPermSize=2g -Xmx4g
   - cmd: pip install --disable-pip-version-check codecov
-  - cmd: npm install -g snyk
   - cmd: java -version
 
 build_script:
@@ -32,7 +27,6 @@ test_script:
 
 after_test:
   - codecov
-  - snyk monitor --org=bretts-org --project-name=accounts
 
 artifacts:
   - path: 'target\scala-*\*.jar'
